@@ -43,15 +43,18 @@ query = st.text_input("Ask a legal question based on uploaded PDFs:")
 if st.button("Submit Question") and query:
     with st.spinner('Fetching answer...'):
         vectorstore = utils.load_vectorstore()
-        llm = ChatOpenAI(api_key=config.OPENAI_API_KEY, model=config.GPT_MODEL, temperature=config.TEMPERATURE)
 
-        qa_chain = RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever(), return_source_documents=True)
-        response = qa_chain({"query": query})
+        if vectorstore is None:
+            st.error("No documents available. Please upload at least one PDF to continue.")
+        else:
+            llm = ChatOpenAI(api_key=config.OPENAI_API_KEY, model=config.GPT_MODEL, temperature=config.TEMPERATURE)
+            qa_chain = RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever(), return_source_documents=True)
+            response = qa_chain({"query": query})
 
-        answer = response["result"]
-        sources = [doc.page_content[:200] + "..." for doc in response["source_documents"]]
+            answer = response["result"]
+            sources = [doc.page_content[:200] + "..." for doc in response["source_documents"]]
 
-        st.session_state.history.insert(0, (query, answer, sources))
+            st.session_state.history.insert(0, (query, answer, sources))
 
 for q, a, src in st.session_state.history:
     st.markdown(f"**Question:** {q}")
