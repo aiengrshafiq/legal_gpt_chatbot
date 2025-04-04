@@ -69,7 +69,34 @@ if st.button("Submit Question") and query:
             st.error("No documents available. Please upload at least one PDF to continue.")
         else:
             llm = ChatOpenAI(api_key=config.OPENAI_API_KEY, model=config.GPT_MODEL, temperature=config.TEMPERATURE)
-            qa_chain = RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever(), return_source_documents=True)
+            
+            # Custom Prompt to restrict answers
+            from langchain.prompts import PromptTemplate
+
+            prompt_template = """You are a legal assistant. Use the context below to answer the user's question.
+            If the answer is clearly not present in the context, reply with:
+            "Sorry, the information you're asking for isn't available in the provided documents."
+
+            Context:
+            {context}
+
+            Question:
+            {question}
+
+            Answer:"""
+
+            PROMPT = PromptTemplate(
+                template=prompt_template, input_variables=["context", "question"]
+            )
+
+            qa_chain = RetrievalQA.from_chain_type(
+                llm,
+                chain_type="stuff",
+                retriever=vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6}),
+                chain_type_kwargs={"prompt": PROMPT},
+                return_source_documents=True
+            )
+
             response = qa_chain({"query": query})
 
             answer = response["result"]
@@ -80,7 +107,10 @@ if st.button("Submit Question") and query:
 for q, a, src in st.session_state.history:
     st.markdown(f"**Question:** {q}")
     st.markdown(f"**Answer:** {a}")
-    with st.expander("View Sources"):
-        for s in src:
-            st.write(s)
+    
+    if "Sorry, the information you're asking for isn't available" not in a:
+        with st.expander("View Sources"):
+            for s in src:
+                st.write(s)
+    
     st.divider()
