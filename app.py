@@ -7,6 +7,26 @@ from langchain.chains import RetrievalQA
 
 st.set_page_config(page_title="Legal GPT Chatbot", layout="wide")
 
+# Authentication
+def authenticate(username, password):
+    return username == "admin" and password == "Meta@321"
+
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+
+if not st.session_state['logged_in']:
+    st.title("🔐 Login Required")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if authenticate(username, password):
+            st.session_state['logged_in'] = True
+            st.success("Logged in successfully!")
+            st.experimental_rerun()
+        else:
+            st.error("Invalid username or password")
+    st.stop()
+
 # Sidebar for PDF Management
 st.sidebar.title("📁 Manage PDFs")
 uploaded_file = st.sidebar.file_uploader("Upload PDF", type=['pdf'])
