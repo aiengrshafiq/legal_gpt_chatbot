@@ -2,7 +2,8 @@ import streamlit as st
 import os
 import utils
 import config
-from langchain.chat_models import ChatOpenAI
+#from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 
 st.set_page_config(page_title="Legal GPT Chatbot", layout="wide")
@@ -22,7 +23,7 @@ if not st.session_state['logged_in']:
         if authenticate(username, password):
             st.session_state['logged_in'] = True
             st.success("Logged in successfully!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Invalid username or password")
     st.stop()

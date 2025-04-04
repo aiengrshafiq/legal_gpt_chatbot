@@ -1,8 +1,10 @@
 import os
 import fitz  # PyMuPDF
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores.faiss import FAISS
+# from langchain.embeddings import OpenAIEmbeddings
+# from langchain.vectorstores.faiss import FAISS
+from langchain_community.embeddings import OpenAIEmbeddings  # Updated
+from langchain_community.vectorstores import FAISS           # Updated
 import config
 
 def extract_text(pdf_path):
