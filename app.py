@@ -47,7 +47,7 @@ for pdf in pdf_files:
     if col2.button("🗑️", key=pdf):
         utils.delete_pdf(pdf)
         st.sidebar.success(f"{pdf} deleted!")
-        st.experimental_rerun()
+        st.rerun()
 
 if st.sidebar.button("🔄 Refresh Embeddings"):
     utils.create_embeddings()
@@ -100,7 +100,14 @@ if st.button("Submit Question") and query:
             response = qa_chain({"query": query})
 
             answer = response["result"]
-            sources = [doc.page_content[:200] + "..." for doc in response["source_documents"]]
+            #sources = [doc.page_content[:200] + "..." for doc in response["source_documents"]]
+            sources = []
+            for doc in response["source_documents"]:
+                metadata = doc.metadata or {}
+                filename = metadata.get("source", "Unknown file")
+                page = metadata.get("page", "Unknown page")
+                text_excerpt = doc.page_content.strip().replace("\n", " ")[:300]
+                sources.append(f"**File:** `{filename}` | **Page:** `{page}`\n\n```text\n{text_excerpt}...\n```")
 
             st.session_state.history.insert(0, (query, answer, sources))
 
@@ -109,8 +116,10 @@ for q, a, src in st.session_state.history:
     st.markdown(f"**Answer:** {a}")
     
     if "Sorry, the information you're asking for isn't available" not in a:
-        with st.expander("View Sources"):
-            for s in src:
-                st.write(s)
+        with st.expander("📖 View Sources"):
+            for i, s in enumerate(src, 1):
+                st.markdown(f"**Source {i}:**")
+                st.markdown(s)
+                st.markdown("---")
     
     st.divider()

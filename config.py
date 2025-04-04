@@ -5,7 +5,7 @@ FLASK_ENV = os.getenv("FLASK_ENV", "development")
 if FLASK_ENV == "development":
     load_dotenv()
 
-print("DEBUG: OPENAI_API_KEY =", os.getenv("OPENAI_API_KEY"))
+
 print("DEBUG: FLASK_ENV =", FLASK_ENV)
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
