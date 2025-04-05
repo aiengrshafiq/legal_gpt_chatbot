@@ -72,3 +72,18 @@ def delete_pdf(filename):
         create_embeddings()
         return True
     return False
+    
+
+def generate_pdf_advice(log_path, output_path):
+    with open(log_path, "r", encoding="utf-8") as file:
+        content = file.read()
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.set_font("Arial", size=12)
+
+    for line in content.split("\n"):
+        pdf.multi_cell(0, 10, line)
+
+    pdf.output(output_path)

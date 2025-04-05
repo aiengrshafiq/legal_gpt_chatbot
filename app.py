@@ -7,6 +7,12 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
 
+from pathlib import Path
+from fpdf import FPDF
+
+os.makedirs("case_reports", exist_ok=True)
+
+
 st.set_page_config(page_title="Legal GPT Assistant", layout="wide")
 os.makedirs("users_temp", exist_ok=True)
 os.makedirs("case_logs", exist_ok=True)
@@ -85,8 +91,10 @@ Answer:"""
     )
     return qa_chain, vectorstore
 
+
 # === UI Tabs ===
-tab1, tab2 = st.tabs(["💬 Ask a Legal Question", "📄 Upload Legal Case for Advice"])
+tab1, tab2, tab3 = st.tabs(["💬 Ask a Legal Question", "📄 Upload Legal Case", "🛠️ Admin Dashboard"])
+
 
 # === Tab 1: Text-Based Q&A ===
 with tab1:
@@ -174,3 +182,55 @@ with tab2:
                                 page = meta.get("page", "Unknown page")
                                 excerpt = doc.page_content.strip().replace("\n", " ")[:300]
                                 st.markdown(f"**File:** `{filename}` | **Page:** `{page}`\n\n```text\n{excerpt}...\n```")
+
+
+#--- Tab 3 - Admin Dashboard----#
+with tab3:
+    st.title("🛠️ Admin Dashboard")
+    st.subheader("📋 Case History")
+
+    logs = sorted(Path("case_logs").glob("*.txt"), reverse=True)
+    if not logs:
+        st.info("No case logs available.")
+        st.stop()
+
+    search_term = st.text_input("🔍 Search by keyword, date, or file name:")
+
+    for log_file in logs:
+        log_name = log_file.name
+        date_str = log_name.replace(".txt", "").replace("_", " ")
+        with open(log_file, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        if search_term.lower() not in content.lower():
+            continue
+
+        with st.expander(f"📄 Case: {log_name}"):
+            st.markdown(f"**🕒 Date:** {date_str}")
+            if "=== Legal Case Text ===" in content:
+                case_part = content.split("=== Legal Case Text ===")[1].split("=== Legal Advice ===")[0].strip()
+                advice_part = content.split("=== Legal Advice ===")[1].strip()
+                st.markdown("**📝 Case Content:**")
+                st.code(case_part[:2000] + ("..." if len(case_part) > 2000 else ""))
+                st.markdown("**📾 Legal Advice:**")
+                st.success(advice_part)
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                if st.button(f"📥 Download PDF", key="download_"+log_name):
+                    output_pdf_path = f"case_reports/{log_name.replace('.txt', '.pdf')}"
+                    utils.generate_pdf_advice(log_file, output_pdf_path)
+                    with open(output_pdf_path, "rb") as pdf_file:
+                        st.download_button(
+                            label="Download Advice as PDF",
+                            data=pdf_file,
+                            file_name=os.path.basename(output_pdf_path),
+                            mime="application/pdf",
+                        )
+
+            with col2:
+                if st.button(f"🗑 Delete", key="delete_"+log_name):
+                    os.remove(log_file)
+                    st.warning(f"Deleted {log_name}")
+                    st.rerun()
+
