@@ -6,6 +6,7 @@ from langchain_community.vectorstores import FAISS
 from langchain.docstore.document import Document
 from langchain_community.chat_models import ChatOpenAI
 import config
+from fpdf import FPDF
 
 def extract_text(pdf_path):
     try:
@@ -72,7 +73,7 @@ def delete_pdf(filename):
         create_embeddings()
         return True
     return False
-    
+
 
 def generate_pdf_advice(log_path, output_path):
     with open(log_path, "r", encoding="utf-8") as file:
