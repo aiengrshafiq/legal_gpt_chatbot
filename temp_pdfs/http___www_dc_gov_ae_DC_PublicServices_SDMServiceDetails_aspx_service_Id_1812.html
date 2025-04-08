@@ -1,0 +1,898 @@
+<html class="" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <script charset="UTF-8" type="text/javascript">
+   (function (global) {
+    global.outsystems = global.outsystems || {};
+    global.outsystems.internal = global.outsystems.internal || {};
+})(this);
+outsystems.internal.timerspolyfillResponseStart = new Date().getTime();
+outsystems.internal.startInstant = new Date();
+outsystems.internal.requestEventName = 'WebScreenClientExecuted';
+outsystems.internal.beaconRESTURL = '/PerformanceProbe/rest/BeaconInternal/WebScreenClientExecutedEvent';
+  </script>
+  <title>
+   دليل الخدمات العامة
+  </title>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+  <meta content="yes" name="apple-mobile-web-app-capable"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <link href="https://dcservice.dc.gov.ae/DCHappinessMeterSmart/happinesssmart?type=2&amp;applicationID=SmartPetitionµ_app=TrackCaseµ_app_display=Petition History&amp;lang=ar-AE&amp;applicationPlatform=OTHERS" rel="DC_UICommon_wt2_block_wt49_wtHappinessMeterLink" type="submit"/>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <meta content="text/javascript" http-equiv="Content-Script-Type"/>
+  <meta content="text/css" http-equiv="Content-Style-Type"/>
+  <script data-dtconfig="rid=RID_-715031317|rpid=-888671856|domain=dc.gov.ae|reportUrl=/DC_PublicServices/rb_bfb71052-bfeb-4c19-8242-ea1610e1fcf3|app=6eb1cf7b2d34c588|featureHash=ICA7NQVfghqrux|msl=153600|srsr=25000|rdnt=1|uxrgce=1|cuc=tylf931o|srms=2,1,0,0%2Ftextarea%2Cinput%2Cselect%2Coption;0%2Fdatalist;0%2Fform%20button;0%2F%5Bdata-dtrum-input%5D;0%2F.data-dtrum-input;1%2F%5Edata%28%28%5C-.%2B%24%29%7C%24%29|mel=100000|dpvc=1|md=mdcc1=a#DC_UICommon_wt43_block_wtMainContent_wtListRecords_MainSectionsMenu_ctl00_DC_UICommon_wt51_block_wtContent|lastModification=1743418290296|tp=500,50,0|agentUri=/DC_PublicServices/ruxitagentjs_ICA7NQVfghqrux_10309250310100759.js" src="/DC_PublicServices/ruxitagentjs_ICA7NQVfghqrux_10309250310100759.js" type="text/javascript">
+  </script>
+  <style>
+   .OSFillParent { 
+ display: block;
+ width: 100%;
+}
+table.OSFillParent {
+ display: table;
+}
+input.OSFillParent,
+button.OSFillParent,
+select.OSFillParent,
+textarea.OSFillParent {
+ display: inline-block;
+ box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+}
+.OSInline {
+ display: inline-block;
+ *zoom: 1;
+ *display: inline;
+ vertical-align: top;
+}
+table.OSInline {
+ display: inline-table;
+}
+.OSAutoMarginTop {
+ margin-top: 10px;
+}
+table[class*="ThemeGrid_Width"] {
+ display: inline-table;
+ vertical-align: top;
+}
+div[class*="ThemeGrid_Width"] {
+ vertical-align: top;
+}
+th[class*="ThemeGrid_Width"],
+td[class*="ThemeGrid_Width"] {
+ display: table-cell;
+}
+[class*="ThemeGrid_Width"] {
+ display: inline-block;
+ box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ *zoom: 1;
+ *display: inline;
+}
+.ThemeGrid_Container {
+ box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+}
+  </style>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Patterns/MainContentMargin.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Common_Mobile/SubMenuItemLayout.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/RichWidgets/Blocks/RichWidgets/RichWidgets/Icon.css?10767" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Common_Mobile/SlideMenu.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Common_Mobile/Header.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Common_Mobile/FooterButton.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/HappinessMetterJs/jquery_fancyboxcss.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/HappinessMetterJs/jquery_fancyboxjs.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Common_Mobile/Footer.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/RichWidgets/Blocks/RichWidgets/jQueryUI/jQueryUIInternal.css?10767" rel="stylesheet" type="text/css"/>
+  <link href="/RichWidgets/Blocks/RichWidgets/RichWidgets/Feedback_Message.css?10767" rel="stylesheet" type="text/css"/>
+  <link href="/RichWidgets/Blocks/RichWidgets/RichWidgets/MobileScripts.css?10767" rel="stylesheet" type="text/css"/>
+  <link href="/RichWidgets/Blocks/RichWidgets/RichWidgets/Feedback_AjaxWait.css?10767" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Blocks/DC_UICommon/Common_Mobile/LayoutMobile.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="/DC_PublicServices/Blocks/DC_PublicServices/MainFlow/SDWeb_ServiceDetails.css?9734" rel="stylesheet" type="text/css"/>
+  <link href="/DC_UICommon/Theme.DCUICommonMobile.css?21381" rel="stylesheet" type="text/css"/>
+  <link href="SDMServiceDetails.css?9734" rel="stylesheet" type="text/css"/>
+  <script id="_OSrequestInfoScript" type="text/javascript">
+   (function(global) { global.outsystems = global.outsystems || {};global.outsystems.internal = global.outsystems.internal || {};global.outsystems.internal.requestInfo = {visitorKey:'c676957a-6310-4632-8031-c511a2d2852f',visitKey:'83fed50b-e0ae-46ce-b38b-15abf3b01efc',sessionKey:'uKeu9JEUQkGGx6PDi8WCNg==',userKey:'',requestKey:'041ee541-e9eb-4e5d-934c-b83705d735af',webScreenKey:'88e9e70d-6949-4b2f-ac10-7e9acd4554c9',webScreenName:'SDMServiceDetails',espaceKey:'52a53172-a4ec-4a14-99a9-97da7e3ed421',espaceName:'DC_PublicServices',applicationKey:'b6990d66-b23b-4328-af2f-b7994466c3fd',applicationName:'Dubai Courts',tenantKey:'4fce4f34-7c99-d1b8-0ceb-7cd09b5a9a35',tenantName:'DC_Users',environmentKey:'e1272586-cc3b-49fa-99ce-660337159219',environmentName:'Production',frontendKey:'$1$VCBA38gNd5NXaFMIWWKQTQ==LKPzrpjdfNxUXEBeOqV41Ek8dorQmke4tkVovF7cyIE='}})(this);
+  </script>
+  <script charset="UTF-8" src="_osjs.js?11_30_0_43791" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/DC_UICommon/Common_Mobile/SlideMenu.ar.js?21381" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/DC_UICommon/HappinessMetterJs/jquery_fancyboxjs.ar.js?21381" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/RichWidgets/jQueryUI/jQueryUIInternal.ar.js?10767" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/RichWidgets/jQueryUI/jQueryComponents.ar.js?10767" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/RichWidgets/RichWidgets/Feedback_Message.ar.js?10767" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/RichWidgets/RichWidgets/MobileScripts.ar.js?10767" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/RichWidgets/RichWidgets/Feedback_AjaxWait.ar.js?10767" type="text/javascript">
+  </script>
+  <script charset="UTF-8" src="/DC_PublicServices/Blocks/DC_UICommon/Common_Mobile/LayoutMobile.ar.js?21381" type="text/javascript">
+  </script>
+  <style type="text/css">
+   .fancybox-margin{margin-right:0px;}
+  </style>
+ </head>
+ <body class="AR-AE" data-os-cookie-policy="Secure">
+  <form action="SDMServiceDetails.aspx" id="WebForm1" method="post" name="WebForm1" onsubmit="javascript:return WebForm_OnSubmit();">
+   <div class="aspNetHidden">
+    <input id="__EVENTTARGET" name="__EVENTTARGET" type="hidden" value=""/>
+    <input id="__EVENTARGUMENT" name="__EVENTARGUMENT" type="hidden" value=""/>
+    <input id="__OSVSTATE" name="__OSVSTATE" type="hidden" value="PzdS3mfC8wyuHcTFaQ8HqN/p216Lxd0+BnEp/lXJ8EaAaN94TWZwdctI3z63T872XnH23fiSyjYujzOwlIv4thgwP8YiZrTEryOlWW3Vf1BVidXs9XzM/w8J/AEICrbq7k737HBJhaBr0o+CFbIxqYVfwEBCNjxzICnWoYIEVBas7suhrOSwmsoQBLibC/5jzN/YsiJt/O9k+uHQje1kahj1IIZArXpG8GN7Bkm6Xacl1ks1hrBsYHF/o7oVwD1Qxjq4Cygmmx1b9lsuFBC5v2dhNCrsseXpfsrzid1rDFClKMdGw8FTCkCOaupdf7PukOIliBDqbjm1jF5NHvbgKs6AmmBlTScbrIu0+aBcaIEN+p8G3pgS4fCxfTzNQ3Mm5ZlJVCQ/HC3pNAqzCX7VX2ltoLHOeqeUJLPRlbvUZs+3wpGv9Rxj7U83L2tUHzpKjIarywQS4tJ0grV5uBVaViAU+yZVD97y+1X9gYEKMvRN46/ESJDB79Mjq6ORF9p8lgJma5QUX1JH6UcinZkygW/JgmJrtdESO4WvSVzmgaHtt6z1ZId8ze4QJ7LH+l6o1Hsy0s4KfOARIJQzeYfuT5gx7lHKMO8vsgkvb1qhr6G5it8w/60lV3h+XrzXbkrhRI7zW5/EApbsu9s0VY27hUsOkz9KIHkBIHMy0BNmPDmzX42rbQCHXCP0TKvLqM/pUxd3l+pgbnLALnCNemw1HhtsBmXhm/HtORKa4fulALUm7XR5OIlQ2lzaULm0gwbfBoVdL648SMj7zoDTQzg1P1PGX8JTb09ufUWk8abGxpgw6nFWH4aVec3BfCqsNzLbzMpSrsLJxjPfMFMAARfGsy9IoUI+C2b5gwbsxqRkDCqWpPE8dvV1Vy1EjW4g/1c4+CSSRtbUBzKMm3lyEbPDvQDN66mHSq7IdnlmaoDF8pS1Ocdw9YFagkZGT6UY7YHgTIcVCCR9FH1hyOksWHWuUteWgYwXwXV7cVhGJ9A9G9y9RD+00R7QbS1dtP62mWqN5OiaJ37CXV6n0ksLws+sJdhXV2XgfO3iwjej4uOE7BusN5cvwmIapsjB4Rpkbx86uwNjGvZasn/GT0o5wUBDUYwGhr7IvLNV2VfI9+UXODd2xdOMsNOzjGVONEcky5fgWft3uupOfiu2Hyo63lON93jmiJzdu8lEScSwA1oD7Poq4N/5qbl0DsX80bE3WwACAd9cjStrP52Fvgg2/AemiZAPAwrw4BQrcf2jKZ+gJD2SOeoamEkgtCoofR8+oXABIJ8GumCj74JMOUDqjSSRv5Tg2+Xa6Sy9ZBqN5yu5OcfgWh7Gn9E9m50vKH0yMyZka0WqLdISvxCNmKzL3jF8FemDu7nGNN786Otl5WBEqbt4ylW48fwhCXWoOAW+K53ZCCc16IpMaifqR1Altc01LrxMzmdFD+UaW/Nlf9ZarAYQ9WjFZ93jeG6vypkjQ0dctwueb1K4zLv9E2j2q5lMk3/VNmck3+IvHXEsM6BJL/oeXtyVp+Ig4Cbz2pTDcEvIqodZOdqle/VAraFLDT9+QEFwC3Top9tx15dsKyNdRMMLAfPSyYaN4abKVAMKWh2aYLHBkM5R6XjkVd9tBhuVl/qnzWykruUh+x5GyaeR/FU="/>
+    <input id="__VIEWSTATE" name="__VIEWSTATE" type="hidden" value=""/>
+   </div>
+   <script type="text/javascript">
+    //<![CDATA[
+var theForm = document.forms['WebForm1'];
+if (!theForm) {
+    theForm = document.WebForm1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+   </script>
+   <script type="text/javascript">
+    //<![CDATA[
+function WebForm_OnSubmit() {
+OsPrepareCheckboxesForSubmit();
+OsFixUploadBeforeSubmit();
+if (!OsValidatorOnSubmit()) return false;
+return true;
+}
+//]]>
+   </script>
+   <div class="aspNetHidden">
+    <input id="__VIEWSTATEGENERATOR" name="__VIEWSTATEGENERATOR" type="hidden" value="E75E78EF"/>
+   </div>
+   <span id="DC_UICommon_wt2_block_wtSetLangEn">
+    <script>
+     var html = document.getElementsByTagName("html")[0];
+var att = document.createAttribute("lang");
+att.value = "en"
+html.setAttributeNode(att);
+    </script>
+   </span>
+   <div class="wtChatIcon" id="DC_UICommon_wt2_block_wtChatIcons">
+    <span id="DC_UICommon_wt2_block_wtChatButtonEN">
+     <script type="text/javascript">
+      (function(d, src, c) { var t=d.scripts[d.scripts.length - 1],s=d.createElement('script');s.id='la_x2s6df8d';s.defer=true;s.src=src;s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs&&(rs!='complete')&&(rs!='loaded')){return;}c(this);};t.parentElement.insertBefore(s,t.nextSibling);})(document, 'https://dubaicourts.ladesk.com/scripts/track.js', function(e){ LiveAgent.createButton('66fa2908', e); });
+     </script>
+     <div class="b_66fa2908_239-animate" id="b_66fa2908_239" style="cursor: pointer;" tabindex="0">
+     </div>
+    </span>
+   </div>
+   <div class="hiddenInSS">
+    <script type="text/javascript">
+     function changeLanguage(language) {
+}
+function nativeRedirectToLogin() {
+}
+    </script>
+    <script>
+     $(function() {
+        document.body.className += 'AR-AE';
+    });
+    </script>
+   </div>
+   <div class="MobileApp">
+    <div class="DC_HeaderPlaceholder">
+    </div>
+    <div class="DC_Header">
+     <div class="OSInline" style="align:left">
+      <div style=" font-family: Dubai Light">
+       <div class="ShowMenu" id="DC_UICommon_wt2_block_wt23_wt35_wtShowMenu" style="margin-top: 0px;">
+        <div alter="القائمة" id="DC_UICommon_wt2_block_wt23_wt35_wtShowOnClick" style="margin-top: 0px;" title="القائمة">
+         <div id="DC_UICommon_wt2_block_wt23_wt35_wtShowOnClick_wtMenu" style="margin-top: 20px; padding:10px" title="القائمة">
+          <span class="fa fa-fw fa-bars fa-2x">
+          </span>
+         </div>
+        </div>
+       </div>
+       <div class="SlideMenu Left" id="DC_UICommon_wt2_block_wt23_wt35_wtMenu" style="margin-top: 0px;">
+        <div class="SlideMenuTitle" style="margin-top: 0px;min-height: 50px;">
+         <div alter="القائمة" id="DC_UICommon_wt2_block_wt23_wt35_wtMenu2" style="margin-top: 0px;">
+         </div>
+         <div class="slidMenuTitleAd" style="margin-top: 20px;">
+          <div align="center">
+           <img alt="" src="/DC_UICommon/img/courtAndGoverment2.png?21381"/>
+          </div>
+          <div class="Text_Error">
+           <div class="MainContentMargin" id="DC_UICommon_wt2_block_wt23_wt35_wt38_wtContent">
+            اهلا بكم في الطلبات الذكية
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="SlideMenuContent" style="margin-top: 20px;">
+         <div alter="القائمة" id="DC_UICommon_wt2_block_wt23_wt35_wtMenuContent" style="margin-top: 0px;">
+         </div>
+         <span class="ListRecords" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu">
+          <div class="SmartServices">
+           <div class="SmartServices_options">
+            <span class="ListRecords" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords">
+             <div class="SmartServices_divider">
+              <a href="/DC_PublicServices/TrackCase.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords_ctl00_wtExpandToSeeMenu" tabindex="1" title="Expand متابعة القضايا">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 متابعة القضايا
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="SmartServices_divider">
+              <a href="/DC_PublicServices/LatestVerdicts.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords_ctl02_wtExpandToSeeMenu" tabindex="2" title="Expand نشر الأحكام">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 نشر الأحكام
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="SmartServices_divider">
+              <a href="/DC_PublicServices/SessionsAgenda.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords_ctl04_wtExpandToSeeMenu" tabindex="3" title="Expand جداول جلسات القضايا ">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 جداول جلسات القضايا
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="SmartServices_divider">
+              <a href="/DC_PublicServices/SDM.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords_ctl06_wtExpandToSeeMenu" tabindex="4" title="Expand دليل خدمات المحاكم">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 دليل خدمات المحاكم
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="SmartServices_divider">
+              <a href="/DC_PublicServices/Experts.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords_ctl08_wtExpandToSeeMenu" tabindex="5" title="Expand ألخبراء">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 ألخبراء
+                </span>
+               </div>
+              </a>
+             </div>
+             <div>
+              <a href="/DC_PublicServices/MarriageOfficialsList.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl02_wt5_wtSubMenuListRecords_ctl10_wtExpandToSeeMenu" tabindex="6" title="Expand المأذونين">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 المأذونين
+                </span>
+               </div>
+              </a>
+             </div>
+            </span>
+           </div>
+          </div>
+          <div class="AboutCourts">
+           <div class="AboutCourts_options">
+            <span class="ListRecords" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords">
+             <div class="AboutCourts_divider">
+              <a href="/DC_PublicServices/DubaiCourts.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords_ctl00_wtExpandToSeeMenu" tabindex="7" title="Expand محاكم دبي">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 محاكم دبي
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="AboutCourts_divider">
+              <a href="/DC_PublicServices/Contacts.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords_ctl02_wtExpandToSeeMenu" tabindex="8" title="Expand اتصل بنا">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 اتصل بنا
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="AboutCourts_divider">
+              <a href="/DC_PublicServices/PrivacyPolicy.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords_ctl04_wtExpandToSeeMenu" tabindex="9" title="Expand سياسة الخصوصية">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 سياسة الخصوصية
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="AboutCourts_divider">
+              <a href="/DC_PublicServices/AppTips.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords_ctl06_wtExpandToSeeMenu" tabindex="10" title="Expand إرشادات التطبيق">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 إرشادات التطبيق
+                </span>
+               </div>
+              </a>
+             </div>
+             <div class="AboutCourts_divider">
+              <a href="/DC_PublicServices/Locations.aspx?ShowAll=True" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords_ctl08_wtExpandToSeeMenu" tabindex="11" title="Expand الموقع">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 الموقع
+                </span>
+               </div>
+              </a>
+             </div>
+             <div>
+              <a href="/DC_PublicServices/FAQs.aspx" id="DC_UICommon_wt2_block_wt23_wt35_wtListRecords_MainSectionsMenu_ctl04_wt5_wtSubMenuListRecords_ctl10_wtExpandToSeeMenu" tabindex="12" title="Expand الأسئلة المتكررة">
+               <div class="DC_SubMenuItemCell" style="">
+                <span class="DC_SubSlidMenuFont">
+                 الأسئلة المتكررة
+                </span>
+               </div>
+              </a>
+             </div>
+            </span>
+           </div>
+          </div>
+         </span>
+        </div>
+        <div align="left" class="container2" style="margin-top: 10px;">
+         <a href="https://www.dc.gov.ae/DC_UICommon/Common_Mobile.Login.aspx?lang=ar-AE&amp;pushNotification=False" id="DC_UICommon_wt2_block_wt23_wt35_wtLogin" tabindex="13" title="الدخول">
+          <div class="container2" data-style-key="WeTy1zsv8kqTGTb1vjBs5Q">
+           <span class="fa fa-fw fa-unlock-alt">
+           </span>
+           <span data-style-key="qn+9ToKOAU2Zn+nm60LGdg">
+            تسجيل الدخول
+           </span>
+          </div>
+         </a>
+        </div>
+        <div style="margin-top: 10px;margin-top: 10px;display:none">
+         For More Information Please contact Info@dc.gov.ae
+        </div>
+        <div align="center">
+         <img alt="" src="/DC_UICommon/img/smartdubai.png?21381" style="height:80px;width:100px; margin-bottom: 100px;"/>
+        </div>
+        <div class="CloseMenu" id="DC_UICommon_wt2_block_wt23_wt35_wtCloseMenu">
+         <div alter="القائمة" id="DC_UICommon_wt2_block_wt23_wt35_wtCloseOnClick" style="margin-top: 0px;">
+         </div>
+        </div>
+       </div>
+       <script type="text/javascript">
+        var main = function() {
+  $('#DC_UICommon_wt2_block_wt23_wt35_wtShowMenu').click(function() {
+    $('#DC_UICommon_wt2_block_wt23_wt35_wtMenu').toggleClass('Show');
+    $('body, .Header').addClass('SlideMenuActive Left');$('#DC_UICommon_wt2_block_wt23_wt35_wtOpacity').addClass('Show Left Opacity');
+  });
+
+  /* Then push them back */
+  $('#DC_UICommon_wt2_block_wt23_wt35_wtCloseMenu, #DC_UICommon_wt2_block_wt23_wt35_wtOpacity').click(function() {
+    $('#DC_UICommon_wt2_block_wt23_wt35_wtMenu').removeClass('Show');
+    $('body, .Header').removeClass('SlideMenuActive Left');$('#DC_UICommon_wt2_block_wt23_wt35_wtOpacity').removeClass('Show Left Opacity');
+  });
+};
+
+
+$(document).ready(main);
+       </script>
+       <style>
+        .SlideMenu.Left, .SlideMenu.Right, .SlideMenu.TopRight, .SlideMenu.BottomRight, .SlideMenu.BottomLeft, .SlideMenu.TopLeft {
+    width: 450px;
+}
+
+.SlideMenu.Top, .SlideMenu.Bottom, .SlideMenu.TopRight, .SlideMenu.BottomRight, .SlideMenu.BottomLeft, .SlideMenu.TopLeft {
+    height: 450px;
+}
+
+.SlideMenu.Left, body.SlideMenuActive.Right, .SlideMenu.BottomLeft, .SlideMenu.TopLeft {
+  left: -450px;
+}
+
+.SlideMenu.Right, .SlideMenu.TopRight, .SlideMenu.BottomRight {
+  right: -450px;
+}
+
+.SlideMenu.Top, .Header.SlideMenuActive.Bottom, body.SlideMenuActive.Bottom, .SlideMenuOpacity.Show.Bottom, .SlideMenu.TopRight, .SlideMenu.TopLeft {
+    top: -450px;
+}
+
+.SlideMenu.Bottom, .SlideMenu.BottomRight, .SlideMenu.BottomLeft {
+    bottom: -450px;
+}
+
+.Header.SlideMenuActive.Top, body.SlideMenuActive.Top, .SlideMenuOpacity.Show.Top {
+    top: 450px;
+}
+
+body.SlideMenuActive.Left, .SlideMenuOpacity.Show.Left {
+    left: 450px;
+}
+
+.SlideMenuOpacity.Show.Right {
+    right: 450px;
+}
+       </style>
+       <div class="SlideMenuOpacity" id="DC_UICommon_wt2_block_wt23_wt35_wtOpacity">
+       </div>
+      </div>
+     </div>
+     <div align="center" class="DC_HeaderTitle">
+      <span id="DC_UICommon_wt2_block_wt23_wtTitle2" style=" font-family: Dubai Light;">
+       بيانات الخدمة
+      </span>
+     </div>
+     <div id="DC_UICommon_wt2_block_wt23_wtback9" style="align:right">
+      <a href="javascript:history.back()" id="DC_UICommon_wt2_block_wt23_wtBack5" style="display: none;" tabindex="18" title="back">
+       <div class="H_BackButtonText">
+        <span class="fa fa-fw fa-angle-right fa-2x">
+        </span>
+       </div>
+      </a>
+     </div>
+    </div>
+    <div class="Main">
+     <div class="MainContent" id="DC_UICommon_wt2_block_wtMainContent" style="display: block;">
+      <div class="page">
+       <div style="margin-top: 2px;">
+        <span class="Heading-title-color">
+         الطعون:التظلمات&gt;التظلم من أمر الأداء
+        </span>
+       </div>
+       <table class="OSFillParent" style="margin-top: 0px;">
+        <tbody>
+         <tr>
+          <td>
+           <div class="Color2-2" style="margin-top: 2px;">
+            <span class="Text-Text">
+             التصنيف الداخلي
+            </span>
+           </div>
+           <span class="DC-Sublist">
+            الطعون:التظلمات
+           </span>
+          </td>
+         </tr>
+         <tr style="style">
+          <td style="vertical-align: middle">
+          </td>
+         </tr>
+         <tr>
+          <td style="vertical-align: middle">
+           <div class="Color2-2 OSInline" style="width: 100%;margin-top: 10px;">
+            <div class="Color">
+             <label class="Text-Text OSFillParent" for="" style="">
+              وصف الخدمة
+             </label>
+            </div>
+           </div>
+           <div align="center" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtDescription">
+            <div align="right" class="OSInline" style="margin-left: 10px">
+             <div>
+              <span class="DC-Sublist">
+               تتيح هذه الخدمة للمدين التظلم من أمر الأداء الصاد
+              </span>
+             </div>
+             ...
+             <a href="#" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtToggleDescription2" onclick="OsAjax(arguments[0] || window.event,'DC_UICommon_wt2_block_wtMainContent_wt1_wtToggleDescription2','DC_UICommon_wt2$block$wtMainContent$wt1$wtToggleDescription2','','__OSVSTATE,',''); return false;" tabindex="22">
+              إقرأ المزيد
+             </a>
+            </div>
+           </div>
+          </td>
+         </tr>
+         <tr>
+          <td style="vertical-align: middle">
+           <div class="Color2-2">
+            <div class="Color" style="margin-top: 10px;">
+             <label class="Text-Text" for="" style="">
+              تستلزم رسوماً
+             </label>
+            </div>
+           </div>
+           <span class="DC-Sublist">
+            نعم
+           </span>
+          </td>
+         </tr>
+         <tr>
+          <td style="vertical-align: middle">
+           <a href="http://www.dubaicourts.gov.ae/" id="DC_UICommon_wt2_block_wtMainContent_wt1_wt208" tabindex="24" target="_blank">
+           </a>
+           <a href="http://www.dc.gov.ae/" id="DC_UICommon_wt2_block_wtMainContent_wt1_wt133" tabindex="26" target="_blank">
+            رابط الخدمة
+           </a>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+       <table class="OSFillParent" style="margin-top: 0px;">
+        <tbody>
+         <tr>
+          <td>
+           <table class="OSFillParent">
+            <tbody>
+             <tr>
+              <td class="Color">
+               <div class="Color">
+                <span class="Text-Text">
+                 رسوم الخدمة
+                </span>
+               </div>
+              </td>
+             </tr>
+             <tr>
+              <td class="Color">
+               <div class="Color">
+                <span class="Text-Text">
+                 المبلغ
+                </span>
+               </div>
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           <div id="DC_UICommon_wt2_block_wtMainContent_wt1_wtSFLess">
+            <table cellspacing="0" class="TableRecords OSFillParent" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtSFLessList">
+             <tbody>
+              <tr>
+               <td class="TableRecords_OddLine" style="width:75%;">
+                <span class="DC-Sublist">
+                 1.
+                </span>
+                <span class="DC-Sublist">
+                 50% of the  Request for Registering Repayment Order no more than 10,000 dirhams
+                </span>
+               </td>
+               <td class="TableRecords_OddLine">
+                <span class="DC-Sublist">
+                </span>
+                <span class="DC-Sublist">
+                 DHS
+                </span>
+               </td>
+              </tr>
+             </tbody>
+            </table>
+            <a href="#" id="DC_UICommon_wt2_block_wtMainContent_wt1_wt104" onclick="OsAjax(arguments[0] || window.event,'DC_UICommon_wt2_block_wtMainContent_wt1_wt104','DC_UICommon_wt2$block$wtMainContent$wt1$wt104','','__OSVSTATE,',''); return false;" tabindex="31">
+             <span class="fa fa-fw fa-arrow-circle-down">
+             </span>
+            </a>
+           </div>
+           <div id="DC_UICommon_wt2_block_wtMainContent_wt1_wtSFFull" style="display:none">
+            <table cellspacing="0" class="TableRecords OSFillParent" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtSFFullList">
+             <tbody>
+              <tr>
+               <td class="TableRecords_OddLine" style="width:75%;">
+                <span class="DC-Sublist">
+                 1.
+                </span>
+                <span class="DC-Sublist">
+                 50% of the  Request for Registering Repayment Order no more than 10,000 dirhams
+                </span>
+               </td>
+               <td class="TableRecords_OddLine">
+                <span class="DC-Sublist">
+                </span>
+                <span class="DC-Sublist">
+                 DHS
+                </span>
+               </td>
+              </tr>
+              <tr>
+               <td class="TableRecords_EvenLine" style="width:75%;">
+                <span class="DC-Sublist">
+                 2.
+                </span>
+                <span class="DC-Sublist">
+                 knowledge Dirham
+                </span>
+               </td>
+               <td class="TableRecords_EvenLine">
+                <span class="DC-Sublist">
+                 10
+                </span>
+                <span class="DC-Sublist">
+                 DHS
+                </span>
+               </td>
+              </tr>
+              <tr>
+               <td class="TableRecords_OddLine" style="width:75%;">
+                <span class="DC-Sublist">
+                 3.
+                </span>
+                <span class="DC-Sublist">
+                 Innovation Dirham
+                </span>
+               </td>
+               <td class="TableRecords_OddLine">
+                <span class="DC-Sublist">
+                 10
+                </span>
+                <span class="DC-Sublist">
+                 DHS
+                </span>
+               </td>
+              </tr>
+             </tbody>
+            </table>
+            <a href="#" id="DC_UICommon_wt2_block_wtMainContent_wt1_wt52" onclick="OsAjax(arguments[0] || window.event,'DC_UICommon_wt2_block_wtMainContent_wt1_wt52','DC_UICommon_wt2$block$wtMainContent$wt1$wt52','','__OSVSTATE,',''); return false;" tabindex="32">
+             <span class="fa fa-fw fa-arrow-circle-up">
+             </span>
+            </a>
+           </div>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+       <table class="OSFillParent" style="margin-top: 10px;">
+        <tbody>
+         <tr>
+          <td class="Color">
+           <div align="center" class="Color" style="margin-top: 10px;">
+            <div class="Color" style="margin-top: 10px;">
+             <span class="Text-Text">
+              قنوات توفير الخدمة
+             </span>
+            </div>
+           </div>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           <div class="Text">
+            <span class="Text-Text">
+             طريقة توفير الخدمة
+            </span>
+           </div>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           <div>
+            <table cellspacing="0" class="TableRecords OSFillParent" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtGessAccesschannelTable">
+             <tbody>
+              <tr>
+               <td class="TableRecords_OddLine">
+                <span class="DC-Sublist">
+                 الأنترنت
+                </span>
+               </td>
+              </tr>
+              <tr>
+               <td class="TableRecords_EvenLine">
+                <span class="DC-Sublist">
+                 موظف
+                </span>
+               </td>
+              </tr>
+             </tbody>
+            </table>
+           </div>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+       <table class="OSFillParent" style="margin-top: 10px;">
+        <tbody>
+         <tr>
+          <td class="Color">
+           <div class="Color" style="margin-top: 0px;">
+            <span class="Text-Text">
+             قنوات الوصول
+            </span>
+           </div>
+          </td>
+         </tr>
+         <tr>
+          <td style="vertical-align: middle">
+           <div>
+            <span class="ListRecords" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtListRecords4">
+             <span class="DC-Sublist">
+              1
+             </span>
+             .
+             <span class="DC-Sublist">
+              الأنترنت
+             </span>
+             <br/>
+             <span class="DC-Sublist">
+              2
+             </span>
+             .
+             <span class="DC-Sublist">
+              موظف
+             </span>
+             <br/>
+            </span>
+           </div>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+       <div>
+        <table class="OSFillParent" style="margin-top: 10px;">
+         <tbody>
+          <tr>
+           <td class="Color">
+            <div class="Color">
+             <span class="Text-Text">
+              العملاء
+             </span>
+            </div>
+           </td>
+          </tr>
+          <tr>
+           <td style="vertical-align: middle">
+            <div style="margin-top: 0px;">
+             <span class="ListRecords" id="DC_UICommon_wt2_block_wtMainContent_wt1_wtListRecords1">
+              <span class="DC-Sublist">
+               1
+              </span>
+              .
+              <span class="DC-Sublist">
+               من الحكومة إلى العملاء الأفراد
+              </span>
+              <br/>
+              <span class="DC-Sublist">
+               2
+              </span>
+              .
+              <span class="DC-Sublist">
+               من الحكومة إلى قطاع الأعمال
+              </span>
+              <br/>
+             </span>
+            </div>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="DC_FooterPlaceholder">
+    </div>
+    <span id="DC_UICommon_wt2_block_wt49_wt30">
+     <span class="Text_Note" id="DC_UICommon_wt2_block_wt49_wt30_wtCounterNotify_RuntimeId">
+      <script id="counterNotify">
+       function DC_CounterNotify() {
+    OsNotifyWidget('DC_UICommon_wt2_block_wt49_wt30','');
+    return true;
+}
+      </script>
+     </span>
+    </span>
+    <div class="DC_Footer">
+     <a href="/DC_MenuMobile/Home.aspx?FirstLoadFromMobile=False&amp;lang=ar-AE" id="DC_UICommon_wt2_block_wt49_wtHome" tabindex="33" title="Home">
+      <div class="OSInline FooterButton FooterButtonThird">
+       <div align="center" class="IconFont">
+        <div id="DC_UICommon_wt2_block_wt49_wt18_wtIcon">
+         <img alt="" src="/DC_UICommon/img/home.png?21381"/>
+        </div>
+       </div>
+       <div align="center" class="LabelFont">
+        <span data-style-key="JjghBdht606ZDsg+xi4wKA">
+         القائمة الرئيسية
+        </span>
+       </div>
+      </div>
+     </a>
+     <a class="Is_Default fancybox fancybox.iframe" href="https://dcservice.dc.gov.ae/DCHappinessMeterSmart/happinesssmart?type=2&amp;applicationID=SmartPetition&amp;micro_app=TrackCase&amp;micro_app_display=Petition History&amp;lang=ar-AE&amp;applicationPlatform=OTHERS" id="DC_UICommon_wt2_block_wt49_wtHappinessMeterLink" tabindex="34" title="Happiness Meter">
+      <div class="OSInline FooterButton FooterButtonThird">
+       <div align="center" class="IconFont">
+        <div id="DC_UICommon_wt2_block_wt49_wt34_wtIcon">
+         <img alt="" src="/DC_UICommon/img/SideIcon.png?21381"/>
+        </div>
+       </div>
+       <div align="center" class="LabelFont">
+        <span data-style-key="JjghBdht606ZDsg+xi4wKA">
+         مؤشر السعادة
+        </span>
+       </div>
+      </div>
+     </a>
+     <a href="/DC_Petitions/Notifications.aspx" id="DC_UICommon_wt2_block_wt49_wtNotification" style="position:relative;" tabindex="35" title="Notification">
+      <div class="DC_NotificationCounter" id="DC_UICommon_wt2_block_wt49_wtDC_NotificationCounter" style="display:none">
+       0
+      </div>
+      <div class="OSInline FooterButton FooterButtonThird">
+       <div align="center" class="IconFont">
+        <div id="DC_UICommon_wt2_block_wt49_wt2_wtIcon">
+         <img alt="" src="/DC_UICommon/img/notifications.png?21381"/>
+        </div>
+       </div>
+       <div align="center" class="LabelFont">
+        <span data-style-key="JjghBdht606ZDsg+xi4wKA">
+         التنبيهات
+        </span>
+       </div>
+      </div>
+     </a>
+     <a href="https://www.dc.gov.ae/DC_PublicServices/MainFlow.SDM.aspx?SubClass2=&amp;MainClassId=" id="DC_UICommon_wt2_block_wt49_wtSearch" tabindex="37" title="Search">
+      <div class="OSInline FooterButton FooterButtonThird">
+       <div align="center" class="IconFont">
+        <div id="DC_UICommon_wt2_block_wt49_wt19_wtIcon">
+         <span class="fa fa-fw fa-search">
+         </span>
+        </div>
+       </div>
+       <div align="center" class="LabelFont">
+        <span data-style-key="JjghBdht606ZDsg+xi4wKA">
+         بحث
+        </span>
+       </div>
+      </div>
+     </a>
+     <script>
+      $(function() {
+            viewport = document.querySelector("meta[name=viewport]");
+            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+});
+     </script>
+    </div>
+   </div>
+   <span id="DC_UICommon_wt2_block_RichWidgets_wt1_block">
+    <script type="text/javascript">
+     OsRegisterExceptionHandler(RichWidgets_Feedback_Message_ErrorHandler)
+    </script>
+    <div aria-atomic="True" aria-live="polite" class="Feedback_Message_Wrapper" id="DC_UICommon_wt2_block_RichWidgets_wt1_block_wtFeedback_Wrapper">
+     <span id="DC_UICommon_wt2_block_RichWidgets_wt1_block_wtnotify">
+      <span class="NotifyWidget">
+      </span>
+      <script type="text/javascript">
+       //<![CDATA[
+RichWidgets_Feedback_Message_notifyWidget ='DC_UICommon_wt2_block_RichWidgets_wt1_block_wtnotify';
+//]]>
+      </script>
+     </span>
+    </div>
+   </span>
+   <noscript>
+    <style>
+     div.Main {
+    display:block; 
+}
+    </style>
+   </noscript>
+   <div aria-atomic="true" aria-live="polite" class="Feedback_AjaxWait" id="DC_UICommon_wt2_block_RichWidgets_wt8_block_wtdivWait" role="status" style="display:none">
+    <img alt="" src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="height:16px;width:16px;"/>
+    تحميل ...
+   </div>
+   <script type="text/javascript">
+    RichWidgets_Feedback_AjaxWait_init('DC_UICommon_wt2_block_RichWidgets_wt8_block_wtdivWait');
+   </script>
+   <script type="text/javascript">
+    //<![CDATA[
+var OsPage_Validators =  new Array({});
+//]]>
+   </script>
+   <script type="text/javascript">
+    //<![CDATA[
+var OsPage_ValidationActive = false;
+OsValidatorOnLoad();
+
+function OsValidatorOnSubmit() {
+  if (OsPage_ValidationActive) { return OsValidatorCommonOnSubmit(); }
+  return true;
+}
+// ]]>
+   </script>
+  </form>
+  <script type="text/javascript">
+   outsystems.internal.$._waitForViewstate = true;outsystems.internal.$(document).ready(function() {outsystems.internal.$('input[name=__OSVSTATE]').val('PzdS3mfC8wyuHcTFaQ8HqN/p216Lxd0+BnEp/lXJ8EaAaN94TWZwdctI3z63T872XnH23fiSyjYujzOwlIv4thgwP8YiZrTEryOlWW3Vf1BVidXs9XzM/w8J/AEICrbq7k737HBJhaBr0o+CFbIxqYVfwEBCNjxzICnWoYIEVBas7suhrOSwmsoQBLibC/5jzN/YsiJt/O9k+uHQje1kahj1IIZArXpG8GN7Bkm6Xacl1ks1hrBsYHF/o7oVwD1Qxjq4Cygmmx1b9lsuFBC5v2dhNCrsseXpfsrzid1rDFClKMdGw8FTCkCOaupdf7PukOIliBDqbjm1jF5NHvbgKs6AmmBlTScbrIu0+aBcaIEN+p8G3pgS4fCxfTzNQ3Mm5ZlJVCQ/HC3pNAqzCX7VX2ltoLHOeqeUJLPRlbvUZs+3wpGv9Rxj7U83L2tUHzpKjIarywQS4tJ0grV5uBVaViAU+yZVD97y+1X9gYEKMvRN46/ESJDB79Mjq6ORF9p8lgJma5QUX1JH6UcinZkygW/JgmJrtdESO4WvSVzmgaHtt6z1ZId8ze4QJ7LH+l6o1Hsy0s4KfOARIJQzeYfuT5gx7lHKMO8vsgkvb1qhr6G5it8w/60lV3h+XrzXbkrhRI7zW5/EApbsu9s0VY27hUsOkz9KIHkBIHMy0BNmPDmzX42rbQCHXCP0TKvLqM/pUxd3l+pgbnLALnCNemw1HhtsBmXhm/HtORKa4fulALUm7XR5OIlQ2lzaULm0gwbfBoVdL648SMj7zoDTQzg1P1PGX8JTb09ufUWk8abGxpgw6nFWH4aVec3BfCqsNzLbzMpSrsLJxjPfMFMAARfGsy9IoUI+C2b5gwbsxqRkDCqWpPE8dvV1Vy1EjW4g/1c4+CSSRtbUBzKMm3lyEbPDvQDN66mHSq7IdnlmaoDF8pS1Ocdw9YFagkZGT6UY7YHgTIcVCCR9FH1hyOksWHWuUteWgYwXwXV7cVhGJ9A9G9y9RD+00R7QbS1dtP62mWqN5OiaJ37CXV6n0ksLws+sJdhXV2XgfO3iwjej4uOE7BusN5cvwmIapsjB4Rpkbx86uwNjGvZasn/GT0o5wUBDUYwGhr7IvLNV2VfI9+UXODd2xdOMsNOzjGVONEcky5fgWft3uupOfiu2Hyo63lON93jmiJzdu8lEScSwA1oD7Poq4N/5qbl0DsX80bE3WwACAd9cjStrP52Fvgg2/AemiZAPAwrw4BQrcf2jKZ+gJD2SOeoamEkgtCoofR8+oXABIJ8GumCj74JMOUDqjSSRv5Tg2+Xa6Sy9ZBqN5yu5OcfgWh7Gn9E9m50vKH0yMyZka0WqLdISvxCNmKzL3jF8FemDu7nGNN786Otl5WBEqbt4ylW48fwhCXWoOAW+K53ZCCc16IpMaifqR1Altc01LrxMzmdFD+UaW/Nlf9ZarAYQ9WjFZ93jeG6vypkjQ0dctwueb1K4zLv9E2j2q5lMk3/VNmck3+IvHXEsM6BJL/oeXtyVp+Ig4Cbz2pTDcEvIqodZOdqle/VAraFLDT9+QEFwC3Top9tx15dsKyNdRMMLAfPSyYaN4abKVAMKWh2aYLHBkM5R6XjkVd9tBhuVl/qnzWykruUh+x5GyaeR/FU=');outsystems.internal.$._waitForViewstate = false;});
+  </script>
+  <script charset="UTF-8" src="/PerformanceProbe/performanceprobe.js?11_30_0_43791" type="text/javascript">
+  </script>
+  <iframe allow="microphone; camera" allowfullscreen="true" src="https://3.ec1.vbus.apps.ladesk.com/5_53_10_4/scripts/lib/bus.html?v=5.53.10.4#%7B%22location%22%3A%22https%3A%2F%2Fwww.dc.gov.ae%2FDC_PublicServices%2FSDMServiceDetails.aspx%3Fservice_Id%3D1812%22%2C%22b%22%3A%221c95qffltf8hbl1wy9xs7l93689msz0p%22%2C%22t%22%3A%22u133418_f187%22%7D" style="display: none; position: fixed; border: 0px; overflow: hidden; color-scheme: auto;" tabindex="-1">
+  </iframe>
+ </body>
+</html>

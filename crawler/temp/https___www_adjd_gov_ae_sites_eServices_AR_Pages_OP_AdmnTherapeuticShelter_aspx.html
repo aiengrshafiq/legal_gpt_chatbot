@@ -1,0 +1,510 @@
+<html lang="ar">
+ <head dir="rtl">
+  <meta content="A7vZI3v+Gz7JfuRolKNM4Aff6zaGuT7X0mf3wtoZTnKv6497cVMnhy03KDqX7kBz/q/iidW7srW31oQbBt4VhgoAAACUeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" http-equiv="origin-trial"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <script async="" charset="utf-8" crossorigin="anonymous" integrity="sha384-0uUcqAX/lKvnfFMvCM7U5wcjfgBvv/1q+xxZKV6ZhBH4ikGcgTDEC4vEZPTt3l8O" src="https://www.gstatic.com/recaptcha/releases/hbAq-YhJxOnlU-7cpgBoAJHb/recaptcha__en.js" type="text/javascript">
+  </script>
+  <script async="" defer="" src="https://www.google.com/recaptcha/enterprise.js">
+  </script>
+  <link href="uaepass/images/favicon.ico" rel="shortcut icon" type="image/ico"/>
+  <link href="uaepass/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="uaepass/css/loginStylesheet.css?2" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript">
+   function windowInit() {
+		document.getElementById('basicPasswordForm-submitButton').disabled = false;
+		var language = "en";
+	}
+
+	window.onload = windowInit;
+
+	function popDownFunction(event) {
+
+	 if (event.target.id != null && event.target.id == 'close') {
+
+      var myPopup = document.getElementById("myPopup");
+
+			if (myPopup != null) {
+				if (myPopup.classList) {
+					myPopup.classList.remove("show");
+				} else {
+					myPopup.className = myPopup.className.replace("show", "");
+				}
+			}
+		}
+	}
+
+	function popUpFunction(event) {
+
+		if (event.target.id != null && event.target.id == 'invalidIdn') {
+
+			var myPopup = document.getElementById("myPopup");
+
+			if (myPopup != null) {
+
+				if (myPopup.classList) {
+					myPopup.classList.toggle("show");
+				} else {
+					var classname = myPopup.className;
+
+					if (classname.indexOf('show') !== -1) {
+						myPopup.className = myPopup.className.replace("show","");
+					} else {
+						myPopup.className += ' show';
+					}
+				}
+			}
+		}
+	}
+
+	function setIdnDanger(event) {
+		document.getElementById("username").style.border = "solid 1px #eb6d72";
+    popUpFunction(event);
+	}
+  </script>
+  <!-- Below JS script seems not used, hence needed to review and can be removed in the future -->
+  <script>
+   NS_CSM_td = 274321656;
+	NS_CSM_pd = 275116664;
+	NS_CSM_u = "/clm10";
+	NS_CSM_col = "";
+  </script>
+  <script type="text/javascript">
+   function sendTimingInfoInit() {
+		setTimeout(sendTimingInfo, 0)
+	}
+	function sendTimingInfo() {
+		var wp = window.performance;
+		if (wp) {
+			var c1, c2, t;
+			c1 = wp.timing;
+			if (c1) {
+				var cm = {};
+				cm.ns = c1.navigationStart;
+				if ((t = c1.unloadEventStart) > 0)
+					cm.us = t;
+				if ((t = c1.unloadEventEnd) > 0)
+					cm.ue = t;
+				if ((t = c1.redirectStart) > 0)
+					cm.rs = t;
+				if ((t = c1.redirectEnd) > 0)
+					cm.re = t;
+				cm.fs = c1.fetchStart;
+				cm.dls = c1.domainLookupStart;
+				cm.dle = c1.domainLookupEnd;
+				cm.cs = c1.connectStart;
+				cm.ce = c1.connectEnd;
+				if ((t = c1.secureConnectionStart) > 0)
+					cm.scs = t;
+				cm.rqs = c1.requestStart;
+				cm.rss = c1.responseStart;
+				cm.rse = c1.responseEnd;
+				cm.dl = c1.domLoading;
+				cm.di = c1.domInteractive;
+				cm.dcls = c1.domContentLoadedEventStart;
+				cm.dcle = c1.domContentLoadedEventEnd;
+				cm.dc = c1.domComplete;
+				if ((t = c1.loadEventStart) > 0)
+					cm.ls = t;
+				if ((t = c1.loadEventEnd) > 0)
+					cm.le = t;
+				cm.tid = NS_CSM_td;
+				cm.pid = NS_CSM_pd;
+				cm.ac = NS_CSM_col;
+				var xhttp = new XMLHttpRequest();
+				if (xhttp) {
+					var JSON = JSON || {};
+					JSON.stringify = JSON.stringify
+							|| function(ob) {
+								var t = typeof (ob);
+								if (t != "object" || ob === null) {
+									if (t == "string")
+										ob = '"' + ob + '"';
+									return String(ob);
+								} else {
+									var n, v, json = [], arr = (ob && ob.constructor == Array);
+									for (n in ob) {
+										v = ob[n];
+										t = typeof (v);
+										if (t == "string")
+											v = '"' + v + '"';
+										else if (t == "object" && v !== null)
+											v = JSON.stringify(v);
+										json.push((arr ? "" : '"' + n + '":')
+												+ String(v));
+									}
+									return (arr ? "[" : "{") + String(json)
+											+ (arr ? "]" : "}");
+								}
+							};
+					//xhttp.open("POST", NS_CSM_u, true);
+					//xhttp.send(JSON.stringify(cm));
+				}
+			}
+		}
+	}
+	if (window.addEventListener)
+		window.addEventListener("load", sendTimingInfoInit, false);
+	else if (window.attachEvent)
+		window.attachEvent("onload", sendTimingInfoInit);
+	else
+		window.onload = sendTimingInfoInit;
+  </script>
+  <script src="libs/jquery_3.6.0/jquery-3.6.0.min.js">
+   function goBack() {
+        window.history.back();
+    }
+
+    // Handle form submission preventing double submission.
+    $(document).ready(function(){
+        $.fn.preventDoubleSubmission = function() {
+            $(this).on('submit',function(e){
+                var $form = $(this);
+                if ($form.data('submitted') === true) {
+                    // Previously submitted - don't submit again.
+                    e.preventDefault();
+                    console.warn("Prevented a possible double submit event");
+                } else {
+                    e.preventDefault();
+
+                    var isEmailUsernameEnabled = JSON.parse("false");
+                    var tenantName = getParameterByName("tenantDomain");
+                    var userName = document.getElementById("username");
+                    var usernameUserInput = document.getElementById("usernameUserInput");
+
+                    if (usernameUserInput) {
+                        var usernameUserInputValue = usernameUserInput.value.trim();
+
+                        if (getParameterByName("isSaaSApp") === "false") {
+
+                            if ((!isEmailUsernameEnabled) && (usernameUserInputValue.split("@").length > 1)) {
+                                userName.value = usernameUserInputValue;
+                            }
+                            else {
+                                userName.value = usernameUserInputValue + "@" + tenantName;
+                            }
+                        }
+                        else {
+                            userName.value = usernameUserInputValue;
+                        }
+                    }
+
+                    if (userName.value) {
+                        $.ajax({
+                            type: "GET",
+                            url: "/logincontext?sessionDataKey=" + getParameterByName("sessionDataKey") +
+                                "&relyingParty=" + getParameterByName("relyingParty") + "&tenantDomain=" + tenantName,
+                            success: function (data) {
+                                if (data && data.status == 'redirect' && data.redirectUrl && data.redirectUrl.length > 0) {
+                                    window.location.href = data.redirectUrl;
+                                } else {
+                                    // Mark it so that the next submit can be ignored.
+                                    $form.data('submitted', true);
+                                    document.getElementById("loginForm").submit();
+                                }
+                            },
+                            cache: false
+                        });
+                    }
+                }
+            });
+
+            return this;
+        };
+        $('#loginForm').preventDoubleSubmission();
+    });
+  </script>
+  <!-- In the latest versions of WSO2 IS products, WSO2 recommends to use extensions/header.jsp to customize and brand instead of includes/header.jsp -->
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <!-- UAEPass Customization Starts-->
+  <!--link rel="icon" href="libs/themes/default/assets/images/branding/favicon.ico" type="image/x-icon"/>
+<link href="libs/themes/default/theme.70534561.min.css" rel="stylesheet"-->
+  <link href="uaepass/images/favicon.ico" rel="icon" type="image/ico"/>
+  <!-- UAEPass Customization Ends-->
+  <!--Cust Start
+<title>UAE PASS</title>
+Cust End -->
+  <title>
+   UAE PASS
+  </title>
+  <script src="libs/jquery_3.6.0/jquery-3.6.0.min.js">
+  </script>
+  <script src="null">
+  </script>
+ </head>
+ <!-- WSO2 Default body implementation tobe removed -->
+ <body onclick="popDownFunction(event)" onload="checkSessionKey()">
+  <script type="text/javascript">
+   function recaptchaCallback() {
+  			document.getElementById('basicPasswordForm-submitButton').disabled = false;
+  			document.getElementById("loginForm").submit();
+  		};
+  		function recaptchaExpired() {
+  			document.getElementById('basicPasswordForm-submitButton').disabled = false;
+  		};
+  </script>
+  <div dir="rtl">
+   <div class="rectangle">
+   </div>
+   <div class="container" style="padding-top:60px;">
+    <div class="row">
+     <div class="col" style="text-align: center">
+      <a class="logo" href="https://www.uaepass.ae" target="_blank">
+       <img onerror="this.src='uaepass/images/self_service.png';" src="uaepass/images/self_service.png"/>
+      </a>
+     </div>
+    </div>
+    <div class="row">
+     <div class="col" style="text-align: center">
+      <div class="login-to-uaepass">
+       <p>
+        الدخول عن طريق
+        <span>
+         الهوية الرقمية
+        </span>
+       </p>
+      </div>
+     </div>
+    </div>
+    <div class="row">
+     <div class="col" style="text-align: center">
+      <div class="login-content m-auto pt-2">
+       <form action="../../commonauth" autocomplete="off" class="authenticationForm form-horizontal" enctype="application/x-www-form-urlencoded" id="loginForm" method="post">
+        <div class="form-group" style="margin-bottom: 0.5rem;">
+         <input autocomplete="off" autofocus="" class="form-control form-control-lg form-input idn-input" id="username" name="username" placeholder="رقم الهوية، البريد الإلكتروني، أو رقم الهاتف. مثال: 971500000000" spellcheck="false" type="text" value=""/>
+        </div>
+        <div align="left" class="form-check top-10">
+         <input checked="checked" class="form-check-input" id="rememberme" name="rememberme" type="checkbox" value="1"/>
+         <label class="dont-have-account" for="rememberme">
+          تذكرني
+         </label>
+        </div>
+        <div class="form-group-button">
+         <input name="iid" type="hidden" value="1"/>
+         <div>
+          <div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;">
+           <div class="grecaptcha-logo">
+            <iframe frameborder="0" height="60" name="a-1b2si9da142n" role="presentation" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" scrolling="no" src="https://www.google.com/recaptcha/enterprise/anchor?ar=1&amp;k=6LfYRJUUAAAAALz6UjyBLj4rQJnGi1PE_U7YLo6s&amp;co=aHR0cHM6Ly9pZHMudWFlcGFzcy5hZTo0NDM.&amp;hl=en&amp;v=hbAq-YhJxOnlU-7cpgBoAJHb&amp;size=invisible&amp;cb=n8s0ydvjktzf" title="reCAPTCHA" width="256">
+            </iframe>
+           </div>
+           <div class="grecaptcha-error">
+           </div>
+           <textarea class="g-recaptcha-response" id="g-recaptcha-response" name="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+          </div>
+          <iframe style="display: none;">
+          </iframe>
+         </div>
+         <input class="btn-login g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="recaptchaExpired" data-sitekey="6LfYRJUUAAAAALz6UjyBLj4rQJnGi1PE_U7YLo6s" id="basicPasswordForm-submitButton" name="basicPasswordForm-submitButton" type="submit" value="تسجيل الدخول"/>
+        </div>
+        <input id="tocommonauth" name="tocommonauth" type="hidden" value="true"/>
+        <input id="password" name="password" type="hidden" value="ndwenw902ee9239"/>
+        <input id="sessionDataKey" name="sessionDataKey" type="hidden" value="8c5a6ea4-0928-4afe-8564-9951a6f09868"/>
+       </form>
+       <hr/>
+       <div class="row">
+        <div class="col" style="padding-bottom: 10px;">
+         <p class="dont-have-account" style="margin-bottom: 0;">
+          ليس لديك حساب في الهوية الرقمية؟
+          <a class="create-new-account" href="https://uaepass.ae/signup" target="_blank">
+           إنشاء حساب جديد
+          </a>
+         </p>
+        </div>
+       </div>
+       <div class="d-sm-none">
+        <div class="row justify-content-center">
+         <div class="col-auto" style="TEXT-ALIGN: center">
+          <div>
+           <a class="recover-account" href="https://uaepass.ae/account-recovery" target="_blank">
+            كيفية استعادة الحساب؟
+           </a>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="d-none d-sm-block">
+        <div class="row justify-content-center">
+         <div class="col-auto" style="TEXT-ALIGN: center">
+          <div>
+           <a class="recover-account" href="https://uaepass.ae/account-recovery" target="_blank">
+            كيفية استعادة الحساب؟
+           </a>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <footer class="footer">
+     <div class="d-sm-none">
+      <div class="row">
+       <div class="col">
+        <img class="ids-logo" src="uaepass/images/n6.png" style="margin-left: 40px; margin-bottom: 8px"/>
+       </div>
+      </div>
+      <div class="row justify-content-center pl-5 pr-5">
+       <div class="col-sm-12">
+        <div class="path">
+        </div>
+       </div>
+      </div>
+      <div class="row">
+       <div class="col">
+        <div class="copyright text-center">
+         حقوق النشر © 2025 الهوية الرقمية جميع الحقوق محفوظة.
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="d-none d-sm-block">
+      <div class="row">
+       <div class="col">
+        <img class="ids-logo" src="uaepass/images/n6.png" style="margin-left: 40px; margin-bottom:8px"/>
+       </div>
+      </div>
+      <div class="row justify-content-center pl-5 pr-5">
+       <div class="col-sm-12">
+        <div class="path">
+        </div>
+       </div>
+      </div>
+      <div class="row">
+       <div class="col">
+        <div class="text-center">
+         <a class="menu" href="https://uaepass.ae">
+          الصفحة الرئيسية
+         </a>
+         <a class="menu" href="https://uaepass.ae/about">
+          نبذة عامة
+         </a>
+         <a class="menu" href="https://uaepass.ae/support">
+          الدعم
+         </a>
+         <a class="menu" href="https://uaepass.ae/faq">
+          الأسئلة الشائعة
+         </a>
+         <a class="menu" href="https://uaepass.ae/locations">
+          مواقع منافذ الخدمة
+         </a>
+         <a class="menu" href="https://uaepass.ae/service-provider">
+          مزودو الخدمات
+         </a>
+        </div>
+       </div>
+      </div>
+      <div class="row">
+       <div class="col">
+        <div class="copyright text-center">
+         حقوق النشر © 2025 الهوية الرقمية جميع الحقوق محفوظة.
+        </div>
+       </div>
+      </div>
+     </div>
+    </footer>
+   </div>
+  </div>
+  <script>
+   /* This is the old UAE Pass implementation. This was changed accordingly to the latest IS version 6.1.0
+        function checkSessionKey() {
+            $.ajax({
+                type: "GET",
+                url: "/logincontext?sessionDataKey=" + getParameterByName("sessionDataKey") + "&relyingParty=" + getParameterByName("relyingParty") + "&tenantDomain=" + getParameterByName("tenantDomain"),
+                success: function (data) {
+                    if (data && data.status == 'redirect' && data.redirectUrl && data.redirectUrl.length > 0) {
+                        window.location.href = data.redirectUrl;
+                    }
+                },
+                cache: false
+            });
+        }
+        */
+        function checkSessionKey() {
+            var proxyPath = ""
+            $.ajax({
+                type: "GET",
+                url: proxyPath + "../logincontext?sessionDataKey=8c5a6ea4-0928-4afe-8564-9951a6f09868&application=AbuDhabi%20Judicial%20Department%20Web%20Portal&authenticators=BasicAuthenticator%3ALOCAL&tenantDomain=carbon.super",
+                xhrFields: { withCredentials: true },
+                success: function (data) {
+                    if (data && data.status == 'redirect' && data.redirectUrl && data.redirectUrl.length > 0) {
+                        window.location.href = data.redirectUrl;
+                    }
+                },
+                cache: false
+            });
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, '\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return "";
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        $(document).ready(function () {
+            $('.main-link').click(function () {
+                $('.main-link').next().hide();
+                $(this).next().toggle('fast');
+                var w = $(document).width();
+                var h = $(document).height();
+                $('.overlay').css("width", w + "px").css("height", h + "px").show();
+            });
+
+            $('.overlay').click(function () {
+                $(this).hide();
+                $('.main-link').next().hide();
+            });
+        });
+
+        function myFunction(key, value, name) {
+            var object = document.getElementById(name);
+            var domain = object.value;
+
+
+            if (domain != "") {
+                document.location = "../commonauth?idp=" + key + "&authenticator=" + value +
+                        "&sessionDataKey=8c5a6ea4-0928-4afe-8564-9951a6f09868&domain=" +
+                        domain;
+            } else {
+                document.location = "../commonauth?idp=" + key + "&authenticator=" + value +
+                        "&sessionDataKey=8c5a6ea4-0928-4afe-8564-9951a6f09868";
+            }
+        }
+
+        function handleNoDomain(elem, key, value) {
+            var linkClicked = "link-clicked";
+            if ($(elem).hasClass(linkClicked)) {
+                console.warn("Preventing multi click.")
+            } else {
+                $(elem).addClass(linkClicked);
+                document.location = "../commonauth?idp=" + key + "&authenticator=" + value +
+                    "&sessionDataKey=8c5a6ea4-0928-4afe-8564-9951a6f09868" +
+                    "";
+            }
+        }
+
+        window.onunload = function(){};
+
+        function changeUsername (e) {
+            document.getElementById("changeUserForm").submit();
+        }
+  </script>
+  <div style="visibility: hidden; position: absolute; width: 100%; top: -10000px; left: 0px; right: 0px; transition: visibility linear 0.3s, opacity 0.3s linear; opacity: 0;">
+   <div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.5;">
+   </div>
+   <div style="margin: 0px auto; top: 0px; left: 0px; right: 0px; position: fixed; border: 1px solid rgb(204, 204, 204); z-index: 2000000000; background-color: rgb(255, 255, 255);">
+    <iframe frameborder="0" name="c-1b2si9da142n" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" scrolling="no" src="https://www.google.com/recaptcha/enterprise/bframe?hl=en&amp;v=hbAq-YhJxOnlU-7cpgBoAJHb&amp;k=6LfYRJUUAAAAALz6UjyBLj4rQJnGi1PE_U7YLo6s" style="width: 100%; height: 100%;" title="recaptcha challenge expires in two minutes">
+    </iframe>
+   </div>
+  </div>
+ </body>
+</html>

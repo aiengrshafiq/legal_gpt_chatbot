@@ -1,9 +1,40 @@
+# UI
 streamlit
+
+# LLM and RAG
 langchain
 langchain-community
+langchain-openai
+langchain-qdrant
 openai
-python-dotenv
-pymupdf
-faiss-cpu
 tiktoken
+
+# Embeddings
+faiss-cpu         # Will be replaced by Qdrant soon
+qdrant-client     # New for scalable vector store
+
+# PDF & Text Processing
+pymupdf
 fpdf
+pytesseract
+pdf2image
+Pillow
+
+# Web Scraping
+selenium
+beautifulsoup4
+pyyaml
+
+# Azure Integration
+azure-storage-blob
+azure-identity
+
+# Environment Variables
+python-dotenv
+
+# PostgreSQL
+psycopg2-binary
+sqlalchemy
+
+# Others
+requests
