@@ -1,18 +1,15 @@
 import os
 import config
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.storage.blob import BlobServiceClient
 
-# Load values from config or env
-AZURE_STORAGE_ACCOUNT_URL = os.getenv("AZURE_STORAGE_ACCOUNT_URL")  
+# Load values from env or config
 AZURE_CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME", "legal-files")
-AZURE_USE_SAS = os.getenv("AZURE_USE_SAS", "false").lower() == "true"
-AZURE_SAS_TOKEN = os.getenv("AZURE_SAS_TOKEN", "")  # Only if SAS is used
+AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 
 def get_blob_service_client():
-    if AZURE_USE_SAS and AZURE_SAS_TOKEN:
-        return BlobServiceClient(account_url=AZURE_STORAGE_ACCOUNT_URL, credential=AZURE_SAS_TOKEN)
-    return BlobServiceClient(account_url=AZURE_STORAGE_ACCOUNT_URL, credential=DefaultAzureCredential())
+    if not AZURE_CONNECTION_STRING:
+        raise ValueError("AZURE_STORAGE_CONNECTION_STRING is not set in environment variables.")
+    return BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
 
 def upload_file(local_path, blob_name):
     blob_service = get_blob_service_client()
