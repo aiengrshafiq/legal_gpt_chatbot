@@ -1,40 +1,47 @@
-# UI
+# === Core Streamlit UI ===
 streamlit
 
-# LLM and RAG
+# === LLM + LangChain + OpenAI ===
 langchain
-langchain-community
 langchain-openai
-langchain-qdrant
+langchain-community
+langchain-core
 openai
 tiktoken
 
-# Embeddings
-faiss-cpu         # Will be replaced by Qdrant soon
-qdrant-client     # New for scalable vector store
+# === Embeddings ===
+faiss-cpu
+qdrant-client
+langchain-qdrant
+sentence-transformers
+transformers
+torch
 
-# PDF & Text Processing
+# === PDF & OCR ===
 pymupdf
 fpdf
 pytesseract
 pdf2image
 Pillow
+PyPDF2
 
-# Web Scraping
+# === Web Scraping ===
 selenium
 beautifulsoup4
 pyyaml
 
-# Azure Integration
+# === Azure Integration ===
 azure-storage-blob
 azure-identity
 
-# Environment Variables
-python-dotenv
+# === Language Detection + NLP ===
+langdetect
+camel-tools  # optional: for Arabic NLP
 
-# PostgreSQL
+# === DB & Env ===
+python-dotenv
 psycopg2-binary
 sqlalchemy
 
-# Others
+# === Utilities ===
 requests

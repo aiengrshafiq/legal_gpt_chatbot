@@ -38,9 +38,17 @@ st.sidebar.title("📁 Law Document Manager (Cloud)")
 
 uploaded_file = st.sidebar.file_uploader("Upload UAE Law PDF", type=["pdf"])
 if uploaded_file:
-    filename = utils.upload_pdf(uploaded_file, uploaded_file.name)
-    st.sidebar.success(f"{filename} uploaded to cloud.")
-    utils.create_embeddings()
+    filename = uploaded_file.name
+
+    # Only upload + embed if this file hasn't been processed in session
+    if st.session_state.get("last_uploaded") != filename:
+        uploaded = utils.upload_pdf(uploaded_file, filename)
+        st.sidebar.success(f"{uploaded} uploaded to cloud.")
+        utils.create_embeddings(force=True, specific_file=f"legal-files/{filename}")
+        st.session_state["last_uploaded"] = filename
+    else:
+        st.sidebar.info(f"{filename} already uploaded this session.")
+
 
 st.sidebar.subheader("📂 Stored PDFs in Azure Blob:")
 pdf_files = [f for f in utils.list_files() if f.endswith(".pdf") and f.startswith("legal-files/")]
@@ -60,10 +68,14 @@ if st.sidebar.button("🔄 Rebuild Embeddings"):
 def load_llm(temp=0.0):
     return ChatOpenAI(api_key=config.OPENAI_API_KEY, model=config.GPT_MODEL, temperature=temp)
 
-def setup_qa_chain(temp=0.0, k=6):
-    retriever = utils.load_vectorstore(k=k)  # ✅ this is now the retriever
-    if not retriever:
+def setup_qa_chain(query, temp=0.0, k=10):
+    query_lang = utils.detect_language(query)
+    docs = utils.direct_qdrant_search(query, lang=query_lang, k=k)
+
+    if not docs:
+        st.error("No relevant documents retrieved. Check embeddings or query.")
         return None, None
+
 
     llm = load_llm(temp)
 
@@ -81,15 +93,17 @@ def setup_qa_chain(temp=0.0, k=6):
 
     PROMPT = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
 
-    qa_chain = RetrievalQA.from_chain_type(
-        llm,
-        chain_type="stuff",
-        retriever=retriever,  # ✅ now works
-        chain_type_kwargs={"prompt": PROMPT},
-        return_source_documents=True
-    )
+    def manual_qa_chain(query):
+        context = "\n\n".join([doc.page_content for doc in docs])
+        prompt = PROMPT.format(context=context, question=query)
+        result = llm.invoke(prompt)
+        return {"result": result.content, "source_documents": docs}
 
-    return qa_chain, retriever
+    return manual_qa_chain, docs
+
+    
+
+    
 
 
 # === UI Tabs ===
@@ -105,11 +119,11 @@ with tab1:
 
     if st.button("Submit Question"):
         with st.spinner("Retrieving answer..."):
-            qa_chain, _ = setup_qa_chain(temp=0.0, k=6)
+            qa_chain, _ = setup_qa_chain(query=query, temp=0.0, k=10)
             if qa_chain is None:
                 st.error("No law documents available. Please upload at least one PDF.")
             else:
-                response = qa_chain.invoke({"query": query})
+                response = qa_chain(query)
                 answer = response["result"]
 
                 sources = []
@@ -121,6 +135,7 @@ with tab1:
                     sources.append(f"**File:** `{filename}` | **Page:** `{page}`\n\n```text\n{text_excerpt}...\n```")
 
                 st.session_state.history.insert(0, (query, answer, sources))
+
 
     for q, a, src in st.session_state.history:
         st.markdown(f"**Question:** {q}")
@@ -140,9 +155,6 @@ with tab2:
         if not case_pdf:
             st.warning("Please upload a legal case PDF.")
         else:
-            # temp_path = os.path.join("users_temp", case_pdf.name)
-            # with open(temp_path, "wb") as f:
-            #     f.write(case_pdf.getbuffer())
             filename = utils.upload_pdf(case_pdf, case_pdf.name, is_case=True)
             temp_path = os.path.join("temp_pdfs", filename)
 
@@ -159,13 +171,16 @@ with tab2:
             st.markdown("#### 📝 Case Preview")
             st.markdown(case_text[:3000])
 
+            lang = utils.detect_language(case_text)  
+            st.markdown(f"**Detected Language:** `{lang}`")
+
             with st.spinner("Analyzing case and generating advice..."):
-                qa_chain, _ = setup_qa_chain(temp=0.5, k=10)
+                qa_chain, _ = setup_qa_chain(query= case_text, temp=0.5, k=10)
                 if qa_chain is None:
                     st.error("No law documents found.")
                 else:
                     #response = qa_chain({"query": case_text})
-                    response = qa_chain.invoke({"query": case_text})
+                    response = qa_chain(case_text)
                     advice = response["result"]
 
                     db = SessionLocal()
