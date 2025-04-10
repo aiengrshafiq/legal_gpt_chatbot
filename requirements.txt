@@ -29,6 +29,7 @@ PyPDF2
 selenium
 beautifulsoup4
 pyyaml
+lxml-html-clean
 readability-lxml
 
 # === Azure Integration ===

@@ -127,6 +127,7 @@ def crawl_all_sites(force=False):
     config = load_config()
     crawled_sites = load_crawled_sites()
     updated = False
+    new_files = []
 
     for site in config.get("sites", []):
         name = site.get("name")
@@ -139,6 +140,10 @@ def crawl_all_sites(force=False):
 
         success = crawl_site(name, url)
         if success:
+            filename = f"{name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d%H%M%S')}.html"
+            blob_path = f"crawled/html/{filename}"
+            new_files.append(blob_path)
+
             timestamp = datetime.utcnow().isoformat()
             site["last_crawled"] = timestamp
             crawled_sites[url] = timestamp
@@ -148,8 +153,8 @@ def crawl_all_sites(force=False):
         save_config(config)
         save_crawled_sites(crawled_sites)
         print("[✅] Updated crawl metadata.")
-    else:
-        print("[ℹ️] No new sites crawled.")
+    
+    return new_files
 
 
 if __name__ == "__main__":

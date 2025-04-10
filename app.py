@@ -215,7 +215,10 @@ with tab3:
     if st.button("🔁 Start Full Crawl"):
         with st.spinner("Crawling sites, downloading PDFs, saving to Azure..."):
             from crawler.scraper import crawl_all_sites
-            utils.create_embeddings(force=False)
+            new_blobs = crawl_all_sites(force=False)
+            for blob in new_blobs:
+                utils.create_embeddings(force=False, specific_file=blob)
+           
             st.success("Crawling and embedding complete.")
 
     db = SessionLocal()
