@@ -2,6 +2,7 @@ import os
 import config
 from azure.storage.blob import BlobServiceClient
 
+
 # Load values from env or config
 AZURE_CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME", "legal-files")
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
