@@ -29,6 +29,7 @@ PyPDF2
 selenium
 beautifulsoup4
 pyyaml
+readability-lxml
 
 # === Azure Integration ===
 azure-storage-blob

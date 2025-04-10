@@ -1,21 +1,24 @@
 import sys
 import os
-# Add parent directory to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import re
 import yaml
 import time
+import json
+import requests
+from datetime import datetime
 from urllib.parse import urljoin, urlparse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from azure_blob import upload_file
-from datetime import datetime
-import requests
 
-import json
-
+# Constants and paths
 CRAWLED_RECORD_PATH = os.path.join(os.path.dirname(__file__), "crawled_sites.json")
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "crawler_config.yaml")
+TEMP_SAVE_DIR = "crawler/temp"
+os.makedirs(TEMP_SAVE_DIR, exist_ok=True)
+
+# === Helpers for config and crawled sites ===
 
 def load_crawled_sites():
     if os.path.exists(CRAWLED_RECORD_PATH):
@@ -27,11 +30,6 @@ def save_crawled_sites(sites):
     with open(CRAWLED_RECORD_PATH, "w") as f:
         json.dump(sorted(list(sites)), f)
 
-
-
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "crawler_config.yaml")
-TEMP_SAVE_DIR = "crawler/temp"
-os.makedirs(TEMP_SAVE_DIR, exist_ok=True)
 
 def load_config():
     if os.path.exists(CONFIG_PATH):
@@ -99,46 +97,59 @@ def crawl_page(url, visited, driver, domain_root):
 
 
 
-def crawl_site(site_config, force=False):
-    start_url = site_config["url"]
-    domain = urlparse(start_url).netloc
-    visited = set()
-
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome(options=chrome_options)
-
+# === Core crawling logic ===
+def crawl_site(name, url):
+    print(f"[CRAWL] Crawling {name} at {url} ...")
     try:
-        to_visit = [start_url]
-        while to_visit:
-            current = to_visit.pop()
-            new_links = crawl_page(current, visited, driver, domain)
-            to_visit.extend([link for link in new_links if link not in visited])
-
-        site_config["last_crawled"] = datetime.utcnow().isoformat()
-        print(f"[✅ Completed] Crawled {len(visited)} pages from {domain}")
-        return domain
-
-    finally:
+        options = Options()
+        options.add_argument('--headless')
+        driver = webdriver.Chrome(options=options)
+        driver.get(url)
+        html = driver.page_source
         driver.quit()
 
+        filename = f"{name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d%H%M%S')}.html"
+        full_path = os.path.join(TEMP_SAVE_DIR, filename)
+        with open(full_path, "w", encoding="utf-8") as f:
+            f.write(f"<!-- SOURCE_URL: {url} -->\n" + html)
 
+        upload_file(full_path, f"crawled/html/{filename}")
+        print(f"[✅] Crawled and saved {filename}")
+        return True
+
+    except Exception as e:
+        print(f"[ERROR] Failed to crawl {url}: {e}")
+        return False
+
+
+# === Run full crawl ===
 def crawl_all_sites(force=False):
     config = load_config()
     crawled_sites = load_crawled_sites()
+    updated = False
 
-    for site in config["sites"]:
-        domain = urlparse(site["url"]).netloc
-        if not force and domain in crawled_sites:
-            print(f"[SKIP] {domain} already crawled.")
+    for site in config.get("sites", []):
+        name = site.get("name")
+        url = site.get("url")
+        last_crawled = site.get("last_crawled")
+
+        if not force and url in crawled_sites:
+            print(f"[SKIP] Already crawled: {url} at {crawled_sites[url]}")
             continue
 
-        result = crawl_site(site, force=force)
-        if result:
-            crawled_sites.add(result)
+        success = crawl_site(name, url)
+        if success:
+            timestamp = datetime.utcnow().isoformat()
+            site["last_crawled"] = timestamp
+            crawled_sites[url] = timestamp
+            updated = True
 
-    save_config(config)
-    save_crawled_sites(crawled_sites)
+    if updated:
+        save_config(config)
+        save_crawled_sites(crawled_sites)
+        print("[✅] Updated crawl metadata.")
+    else:
+        print("[ℹ️] No new sites crawled.")
 
 
 if __name__ == "__main__":

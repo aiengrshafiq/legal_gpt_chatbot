@@ -2,6 +2,7 @@ import fitz  # PyMuPDF
 from pdf2image import convert_from_path
 import pytesseract
 from bs4 import BeautifulSoup
+from readability import Document  
 
 def extract_text(pdf_path):
     try:
@@ -27,18 +28,24 @@ def extract_text_from_html(html_path):
     try:
         with open(html_path, "r", encoding="utf-8") as f:
             html = f.read()
-            soup = BeautifulSoup(html, "html.parser")
+            doc = Document(html)
+            simplified_html = doc.summary()
+            title = doc.title() or "Untitled"
 
-            title = soup.title.string.strip() if soup.title else "Untitled"
+            # Remove unwanted elements
+            soup = BeautifulSoup(simplified_html, "html.parser")
+            for tag in soup(["script", "style", "head", "footer", "nav"]):
+                tag.decompose()
+
+            text = soup.get_text(separator="\n", strip=True)
+
             source_url = "Unknown"
-
             for comment in soup.find_all(string=lambda text: isinstance(text, str) and "SOURCE_URL:" in text):
                 if "SOURCE_URL:" in comment:
                     source_url = comment.split("SOURCE_URL:")[-1].strip()
                     break
 
-            text = soup.get_text(separator="\n")
-            return [(1, text, title, source_url)]
+            return [(1, text, title.strip(), source_url)]
 
     except Exception as e:
         print(f"[ERROR] Couldn't extract HTML text from {html_path}: {e}")

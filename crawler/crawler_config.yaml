@@ -1,7 +1,12 @@
 sites:
-- last_crawled: '2025-04-07T18:57:08.902668'
-  name: Dubai Courts
-  url: https://www.dc.gov.ae/PublicServices/HomePage.aspx?lang=en
-- last_crawled: '2025-04-07T22:34:33.676775'
-  name: Abu Dhabi Judicial Department
-  url: https://www.adjd.gov.ae/EN/Pages/Home.aspx
+  # - name: Ministry of Justice (Arabic)
+  #   url: https://www.moj.gov.ae/ar/home.aspx
+  #   last_crawled: 
+
+  - name: Ministry of Justice (English)
+    url: https://www.moj.gov.ae/en/home.aspx
+    last_crawled: 
+
+  # - name: UAE Official Gazette
+  #   url: https://elaws.moj.gov.ae
+  #   last_crawled:
