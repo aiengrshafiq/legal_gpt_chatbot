@@ -31,6 +31,8 @@ beautifulsoup4
 pyyaml
 lxml-html-clean
 readability-lxml
+blinker==1.4
+selenium-wire
 
 # === Azure Integration ===
 azure-storage-blob

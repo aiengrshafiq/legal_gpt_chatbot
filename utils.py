@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import fitz  # PyMuPDF
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
@@ -21,7 +22,7 @@ from PIL import Image
 from extractors import extract_text, extract_text_from_html
 from bs4 import BeautifulSoup
 
-from langdetect import detect
+from langdetect import detect, DetectorFactory
 from pdf2image import convert_from_path
 import pytesseract
 from PyPDF2 import PdfReader
@@ -40,6 +41,7 @@ TEMP_DIR = "temp_pdfs"
 os.makedirs(TEMP_DIR, exist_ok=True)
 
 QDRANT_COLLECTION_NAME = "uae_law"
+DetectorFactory.seed = 0
 
 
 def get_qdrant_vectorstore(embeddings, collection_name) -> VectorStore:
@@ -131,7 +133,21 @@ def create_embeddings(force=False, specific_file=None):
                 for page_num, page_text in pages:
                     chunks = splitter.split_text(page_text)
                     for chunk in chunks:
+                        last_detected_lang = "en"
+                        chunk = chunk.replace('\n', ' ').strip()
+                        if not chunk or len(chunk) < 20:
+                            print(f"[SKIP] Empty or short chunk: Page {page_num}")
+                            continue
+                        if not re.search(r'[a-zA-Z\u0600-\u06FF]', chunk):
+                            print(f"[SKIP] No useful text: Page {page_num}")
+                            continue
+
                         lang = detect_language(chunk)
+                        if lang == "unknown":
+                            lang = last_detected_lang
+                        else:
+                            last_detected_lang = lang
+                        print(f"[LANG DETECTED IN PDF] {lang}: {chunk[:80]}")
 
                         try:
                             tag_prompt = f"Assign 2-4 short relevant legal topic tags (comma-separated) for the following law excerpt:\n\n{chunk[:1000]}"
@@ -173,7 +189,21 @@ def create_embeddings(force=False, specific_file=None):
                 for page_num, page_text, title, source_url in html_data:
                     chunks = splitter.split_text(page_text)
                     for chunk in chunks:
+                        last_detected_lang = "en"
+                        chunk = chunk.replace('\n', ' ').strip()
+                        if not chunk or len(chunk) < 20:
+                            print(f"[SKIP] Empty or short chunk: Page {page_num}")
+                            continue
+                        if not re.search(r'[a-zA-Z\u0600-\u06FF]', chunk):
+                            print(f"[SKIP] No useful text: Page {page_num}")
+                            continue
+
                         lang = detect_language(chunk)
+                        if lang == "unknown":
+                            lang = last_detected_lang
+                        else:
+                            last_detected_lang = lang
+                        print(f"[LANG DETECTED IN HTML] {lang}: {chunk[:80]}")
 
                         try:
                             tag_prompt = f"Assign 2-4 short relevant legal topic tags (comma-separated) for the following law excerpt:\n\n{chunk[:1000]}"
@@ -262,7 +292,10 @@ def generate_pdf_advice(log_path, output_path):
 
 def detect_language(text: str) -> str:
     try:
-        return detect(text)
+        lang = detect(text)
+        if lang not in ['en', 'ar']:
+            lang = 'en'
+        return lang
     except:
         return "unknown"
 

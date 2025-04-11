@@ -130,9 +130,12 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv_new
 env/
 venv/
+venv_new/
 venv
+venv_new
 ENV/
 env.bak/
 venv.bak/
@@ -178,3 +181,4 @@ cython_debug/
 #developer's custom folders
 temp_pdfs/
 crawler/temp/
+crawler/crawler/

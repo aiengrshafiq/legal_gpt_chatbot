@@ -1,13 +1,11 @@
-import sys
 import os
 import re
 import yaml
 import time
 import json
-import requests
 from datetime import datetime
 from urllib.parse import urljoin, urlparse, urlunparse
-from selenium import webdriver
+from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from azure_blob import upload_file
@@ -17,8 +15,7 @@ CONFIG_PATH = os.path.join(os.path.dirname(__file__), "crawler_config.yaml")
 TEMP_SAVE_DIR = "crawler/temp"
 os.makedirs(TEMP_SAVE_DIR, exist_ok=True)
 
-EXCLUDE_PATHS = ["/media/", "/login/", "/Userfiles/"]
-MAX_DEPTH = 2
+MAX_DEPTH = 4
 
 def load_crawled_sites():
     if os.path.exists(CRAWLED_RECORD_PATH):
@@ -36,116 +33,125 @@ def load_config():
             return yaml.safe_load(f)
     return {"sites": []}
 
-def save_config(config):
-    with open(CONFIG_PATH, 'w') as f:
-        yaml.dump(config, f)
-
 def is_valid_url(url):
-    exclude_extensions = [".jpg", ".jpeg", ".png", ".gif", ".css", ".js", ".ico", ".svg", ".pdf", "#", "?"]
-    exclude_paths = ["/media/", "/login/", "/Userfiles/", "/javascript:"]
-
+    exclude_extensions = [".jpg", ".jpeg", ".png", ".gif", ".css", ".js", ".ico", ".svg", "#", "?"]
     parsed_url = urlparse(url.lower())
-
-    if not parsed_url.scheme.startswith("http"):
-        return False
-
-    if any(ext in parsed_url.path for ext in exclude_extensions):
-        return False
-
-    if any(exclude in parsed_url.path for exclude in exclude_paths):
-        return False
-
-    return True
+    return parsed_url.scheme.startswith("http") and not any(ext in parsed_url.path for ext in exclude_extensions)
 
 def normalize_url(url):
     parsed = urlparse(url)
-    parts = parsed.path.split('/')
-    new_parts = []
+    path_parts = [part for part in parsed.path.split('/') if part]
 
-    # Remove repeating segments immediately
-    for part in parts:
-        if part and (len(new_parts) == 0 or part != new_parts[-1]):
-            new_parts.append(part)
+    # Remove consecutive repeating parts (e.g., /en/en/en → /en)
+    cleaned_parts = []
+    for i, part in enumerate(path_parts):
+        if i == 0 or part != path_parts[i - 1]:
+            cleaned_parts.append(part)
 
-    normalized_path = '/' + '/'.join(new_parts)
-    normalized = urlunparse((parsed.scheme, parsed.netloc, normalized_path, '', '', ''))
-    return normalized.rstrip('/')
+    # Optionally, remove over-repetition of common locale indicators (like 'en', 'ar')
+    # Only keep the first occurrence of any language code
+    language_tags = {"en", "ar"}
+    seen_langs = set()
+    final_parts = []
+    for part in cleaned_parts:
+        if part in language_tags:
+            if part in seen_langs:
+                continue
+            seen_langs.add(part)
+        final_parts.append(part)
+
+    normalized_path = '/' + '/'.join(final_parts)
+    final_deduped = []
+    for part in final_parts:
+        if not final_deduped or part != final_deduped[-1]:
+            final_deduped.append(part)
+
+    normalized_path = '/' + '/'.join(final_deduped)
+    return urlunparse((parsed.scheme, parsed.netloc, normalized_path, '', '', ''))
+
 
 
 def sanitize_filename(url):
     return re.sub(r'[^a-zA-Z0-9_\-]', '_', url)
 
+def detect_and_download_pdf(driver, url, blob_paths):
+    pdf_content = None
+    for request in driver.requests:
+        if request.response and 'application/pdf' in request.response.headers.get('Content-Type', ''):
+            pdf_content = request.response.body
+            break
 
-def crawl_recursive(start_url, name, driver, visited, depth=0):
+    if pdf_content:
+        filename = sanitize_filename(url)[:100] + ".pdf"
+        local_pdf_path = os.path.join(TEMP_SAVE_DIR, filename)
+        with open(local_pdf_path, "wb") as f:
+            f.write(pdf_content)
+        blob_path = f"crawled/pdfs/{filename}"
+        upload_file(local_pdf_path, blob_path)
+        blob_paths.append(blob_path)
+        print(f"[📄 PDF saved via Selenium Wire] {url}")
+    else:
+        print(f"[⚠️ PDF not intercepted] {url}")
+
+
+def crawl_recursive(url, driver, visited, blob_paths, depth=0):
     if depth > MAX_DEPTH:
-        return []
+        return
 
-    domain_root = urlparse(start_url).netloc
-    to_visit = [(start_url, 0)]  # Queue with depth
-    blob_paths = []
+    norm_url = normalize_url(url)
+    if norm_url in visited or not is_valid_url(norm_url):
+        print(f"[SKIP LOOPING] {url}")
+        return
 
-    while to_visit:
-        url, current_depth = to_visit.pop(0)
+    visited.add(norm_url)  
 
-        if url in visited or current_depth > MAX_DEPTH:
-            continue
+    try:
+        driver.get(url)
+        time.sleep(2) 
 
-        visited.add(url)
+        if url.lower().endswith(".pdf.aspx"):
+            detect_and_download_pdf(driver, url, blob_paths)
+            return
 
-        try:
-            driver.get(url)
-            time.sleep(1.5)
-            html = driver.page_source
-            soup = BeautifulSoup(html, "html.parser")
+        html = driver.page_source
+        soup = BeautifulSoup(html, "html.parser")
 
-            filename = sanitize_filename(url)[:100] + ".html"
-            local_path = os.path.join(TEMP_SAVE_DIR, filename)
-            with open(local_path, "w", encoding="utf-8") as f:
-                f.write(f"<!-- SOURCE_URL: {url} -->\n{soup.prettify()}")
+        filename = sanitize_filename(url)[:100] + ".html"
+        local_path = os.path.join(TEMP_SAVE_DIR, filename)
+        with open(local_path, "w", encoding="utf-8") as f:
+            f.write(f"<!-- SOURCE_URL: {url} -->\n{soup.prettify()}")
 
-            blob_path = f"crawled/html/{filename}"
-            upload_file(local_path, blob_path)
-            blob_paths.append(blob_path)
-            print(f"[Saved HTML] {url}")
+        blob_path = f"crawled/html/{filename}"
+        upload_file(local_path, blob_path)
+        blob_paths.append(blob_path)
+        print(f"[📄 HTML saved] {url}")
 
-            domain_root = "{uri.scheme}://{uri.netloc}".format(uri=urlparse(start_url))
+        for a_tag in soup.find_all("a", href=True):
+            link = urljoin(url, a_tag['href'].strip())
+            norm_link = normalize_url(link)
+            if is_valid_url(norm_link) and norm_link not in visited:
+                crawl_recursive(norm_link, driver, visited, blob_paths, depth + 1)
 
-            for a_tag in soup.find_all("a", href=True):
-                href = a_tag['href'].strip()
-                # Join with domain_root instead of current URL to avoid repetition
-                full_link = urljoin(domain_root, href)
-                norm_full_link = normalize_url(full_link)
-
-                if (is_valid_url(norm_full_link)
-                    and urlparse(norm_full_link).netloc == urlparse(domain_root).netloc
-                    and norm_full_link not in visited
-                    and norm_full_link not in [x[0] for x in to_visit]):
-                    to_visit.append((norm_full_link, current_depth + 1))
-
-        except Exception as e:
-            print(f"[ERROR] Failed to crawl {url}: {e}")
-
-    return blob_paths
+    except Exception as e:
+        print(f"[ERROR] Failed to crawl {url}: {e}")
 
 
 def crawl_site(name, url):
-    print(f"[CRAWL] Crawling full site: {name} at {url} ...")
-    try:
-        options = Options()
-        options.add_argument('--headless')
-        options.add_argument('--disable-gpu')
-        options.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(options=options)
+    print(f"[CRAWL START] {name} at {url}")
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
 
-        visited = set()
-        blob_paths = crawl_recursive(url, name, driver, visited, depth=0)
+    driver = webdriver.Chrome(options=options)
+    visited = set()
+    blob_paths = []
 
-        driver.quit()
-        return blob_paths
+    crawl_recursive(url, driver, visited, blob_paths)
 
-    except Exception as e:
-        print(f"[ERROR] Failed to crawl site {url}: {e}")
-        return []
+    driver.quit()
+    print(f"[CRAWL END] {name}")
+    return blob_paths
 
 def crawl_all_sites(force=False):
     config = load_config()
@@ -154,29 +160,23 @@ def crawl_all_sites(force=False):
     new_files = []
 
     for site in config.get("sites", []):
-        name = site.get("name")
-        url = site.get("url")
-        last_crawled = site.get("last_crawled")
-
+        url = site["url"]
         if not force and url in crawled_sites:
-            print(f"[SKIP] Already crawled: {url} at {crawled_sites[url]}")
+            print(f"[SKIP] Already crawled: {url}")
             continue
 
-        blob_paths = crawl_site(name, url)
-        new_files.extend(blob_paths)
-
+        blob_paths = crawl_site(site["name"], url)
         if blob_paths:
-            timestamp = datetime.utcnow().isoformat()
-            site["last_crawled"] = timestamp
-            crawled_sites[url] = timestamp
+            new_files.extend(blob_paths)
+            crawled_sites[url] = datetime.utcnow().isoformat()
             updated = True
 
     if updated:
-        save_config(config)
         save_crawled_sites(crawled_sites)
-        print("[✅] Updated crawl metadata.")
+        print("[✅ Metadata updated]")
 
     return new_files
 
+
 if __name__ == "__main__":
-    crawl_all_sites(force=False)
+    crawl_all_sites()
