@@ -22,6 +22,18 @@ from qdrant_client.http.models import VectorParams, Distance
 from qdrant_client import QdrantClient
 import config
 
+import streamlit as st
+import os
+import utils
+
+from datetime import datetime
+from langchain.prompts import PromptTemplate
+from langchain.chains import RetrievalQA
+from langchain_openai import ChatOpenAI
+from db import SessionLocal
+from models import CaseLog
+from pathlib import Path
+
 def setup_qdrant_collections():
     print("function called setup_qdrant_collections")
     client = QdrantClient(
@@ -56,8 +68,17 @@ def delete_qdrant_collections():
         api_key=config.QDRANT_API_KEY,
     )
     client.delete_collection(collection_name="uae_law_openai")
+
+
+def test_crawler():
+    from crawler.scraper import crawl_all_sites
+    new_blobs = crawl_all_sites(force=False)
+    for blob in new_blobs:
+        utils.create_embeddings(force=False, specific_file=blob)
+    print("[✅] Website crawled finished successfully")
      
 
 if __name__ == "__main__":
-    setup_qdrant_collections()
+    #setup_qdrant_collections()
     #delete_qdrant_collections()
+    test_crawler()

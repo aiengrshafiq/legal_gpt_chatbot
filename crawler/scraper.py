@@ -41,47 +41,56 @@ def save_config(config):
         yaml.dump(config, f)
 
 def is_valid_url(url):
-    if not url.startswith("http"):
+    exclude_extensions = [".jpg", ".jpeg", ".png", ".gif", ".css", ".js", ".ico", ".svg", ".pdf", "#", "?"]
+    exclude_paths = ["/media/", "/login/", "/Userfiles/", "/javascript:"]
+
+    parsed_url = urlparse(url.lower())
+
+    if not parsed_url.scheme.startswith("http"):
         return False
-    if any(ex in url for ex in EXCLUDE_PATHS):
+
+    if any(ext in parsed_url.path for ext in exclude_extensions):
         return False
-    if any(ext in url for ext in [".jpg", ".png", ".gif", ".css", ".js", "#"]):
+
+    if any(exclude in parsed_url.path for exclude in exclude_paths):
         return False
+
     return True
 
 def normalize_url(url):
     parsed = urlparse(url)
-    # Remove duplicate segments like /en/en/en/ to /en/
-    path_parts = parsed.path.split('/')
-    seen = set()
-    normalized_parts = []
-    for part in path_parts:
-        if part and (part not in seen or part == 'en'):
-            seen.add(part)
-            normalized_parts.append(part)
-    normalized_path = '/' + '/'.join(normalized_parts)
+    parts = parsed.path.split('/')
+    new_parts = []
+
+    # Remove repeating segments immediately
+    for part in parts:
+        if part and (len(new_parts) == 0 or part != new_parts[-1]):
+            new_parts.append(part)
+
+    normalized_path = '/' + '/'.join(new_parts)
     normalized = urlunparse((parsed.scheme, parsed.netloc, normalized_path, '', '', ''))
-    return normalized
+    return normalized.rstrip('/')
+
 
 def sanitize_filename(url):
     return re.sub(r'[^a-zA-Z0-9_\-]', '_', url)
+
 
 def crawl_recursive(start_url, name, driver, visited, depth=0):
     if depth > MAX_DEPTH:
         return []
 
     domain_root = urlparse(start_url).netloc
-    to_visit = [start_url]
+    to_visit = [(start_url, 0)]  # Queue with depth
     blob_paths = []
 
     while to_visit:
-        url = to_visit.pop()
-        norm_url = normalize_url(url)
-        if norm_url in visited or not is_valid_url(norm_url):
-            print(f"[SKIP LOOPING] {url}")
+        url, current_depth = to_visit.pop(0)
+
+        if url in visited or current_depth > MAX_DEPTH:
             continue
 
-        visited.add(norm_url)
+        visited.add(url)
 
         try:
             driver.get(url)
@@ -89,43 +98,35 @@ def crawl_recursive(start_url, name, driver, visited, depth=0):
             html = driver.page_source
             soup = BeautifulSoup(html, "html.parser")
 
-            filename = sanitize_filename(norm_url)[:100] + ".html"
+            filename = sanitize_filename(url)[:100] + ".html"
             local_path = os.path.join(TEMP_SAVE_DIR, filename)
             with open(local_path, "w", encoding="utf-8") as f:
-                f.write(f"<!-- SOURCE_URL: {url} -->\n" + soup.prettify())
+                f.write(f"<!-- SOURCE_URL: {url} -->\n{soup.prettify()}")
+
             blob_path = f"crawled/html/{filename}"
             upload_file(local_path, blob_path)
             blob_paths.append(blob_path)
             print(f"[Saved HTML] {url}")
 
-            for a_tag in soup.find_all("a", href=True):
-                href = a_tag['href']
-                if href.lower().endswith(".pdf"):
-                    pdf_url = urljoin(url, href)
-                    if not is_valid_url(pdf_url):
-                        continue
-                    try:
-                        pdf_resp = requests.get(pdf_url, timeout=10)
-                        if pdf_resp.status_code == 200:
-                            pdf_name = sanitize_filename(pdf_url.split("/")[-1])
-                            pdf_path = os.path.join(TEMP_SAVE_DIR, pdf_name)
-                            with open(pdf_path, "wb") as f:
-                                f.write(pdf_resp.content)
-                            upload_file(pdf_path, f"crawled/pdfs/{pdf_name}")
-                            blob_paths.append(f"crawled/pdfs/{pdf_name}")
-                            print(f"[Saved PDF] {pdf_url}")
-                    except Exception as e:
-                        print(f"Failed to fetch PDF: {pdf_url} — {e}")
+            domain_root = "{uri.scheme}://{uri.netloc}".format(uri=urlparse(start_url))
 
             for a_tag in soup.find_all("a", href=True):
-                link = urljoin(url, a_tag['href'])
-                if is_valid_url(link) and urlparse(link).netloc == domain_root:
-                    to_visit.append(link)
+                href = a_tag['href'].strip()
+                # Join with domain_root instead of current URL to avoid repetition
+                full_link = urljoin(domain_root, href)
+                norm_full_link = normalize_url(full_link)
+
+                if (is_valid_url(norm_full_link)
+                    and urlparse(norm_full_link).netloc == urlparse(domain_root).netloc
+                    and norm_full_link not in visited
+                    and norm_full_link not in [x[0] for x in to_visit]):
+                    to_visit.append((norm_full_link, current_depth + 1))
 
         except Exception as e:
             print(f"[ERROR] Failed to crawl {url}: {e}")
 
     return blob_paths
+
 
 def crawl_site(name, url):
     print(f"[CRAWL] Crawling full site: {name} at {url} ...")
