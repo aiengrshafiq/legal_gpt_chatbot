@@ -23,9 +23,15 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Pull previous image for cache (optional)
         run: |
-          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/legal-gpt-chatbot:latest .
+          docker pull ${{ secrets.ACR_LOGIN_SERVER }}/legal-gpt-chatbot:latest || true
+
+      - name: Build and push Docker image with cache
+        run: |
+          docker build \
+            --cache-from ${{ secrets.ACR_LOGIN_SERVER }}/legal-gpt-chatbot:latest \
+            -t ${{ secrets.ACR_LOGIN_SERVER }}/legal-gpt-chatbot:latest .
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/legal-gpt-chatbot:latest
 
       - name: Azure Login

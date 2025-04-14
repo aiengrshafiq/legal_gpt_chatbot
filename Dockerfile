@@ -4,19 +4,28 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Pre-install dependencies to leverage Docker layer caching
-COPY requirements.txt ./
+# Install system dependencies required to build some Python packages (e.g., camel-kenlm)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    gcc \
+    g++ \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Pre-install Python dependencies separately for better caching
+COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the rest of the application
 COPY . .
 
-# Optional: Environment variable to suppress Streamlit telemetry
+# Optional: Environment variables
 ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 ENV PYTHONUNBUFFERED=1
 
-# Expose Streamlit default port
+# Expose Streamlit's default port
 EXPOSE 8501
 
-# Streamlit entrypoint (use host networking)
+# Run Streamlit app
 ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
