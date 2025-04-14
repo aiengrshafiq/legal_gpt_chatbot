@@ -40,7 +40,7 @@ azure-identity
 
 # === Language Detection + NLP ===
 langdetect
-camel-tools  # optional: for Arabic NLP
+#camel-tools  # optional: for Arabic NLP
 
 # === DB & Env ===
 python-dotenv
