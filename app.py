@@ -15,24 +15,24 @@ st.set_page_config(page_title="Legal GPT Assistant", layout="wide")
 os.makedirs("users_temp", exist_ok=True)
 os.makedirs("case_reports", exist_ok=True)
 
-# # === Authentication ===
-# def authenticate(username, password):
-#     return username == "admin" and password == "Meta@321"
+# === Authentication ===
+def authenticate(username, password):
+    return username == "admin" and password == "Meta@321"
 
-# if 'logged_in' not in st.session_state:
-#     st.session_state['logged_in'] = False
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
 
-# if not st.session_state['logged_in']:
-#     st.title("🔐 Login Required")
-#     username = st.text_input("Username")
-#     password = st.text_input("Password", type="password")
-#     if st.button("Login"):
-#         if authenticate(username, password):
-#             st.session_state['logged_in'] = True
-#             st.rerun()
-#         else:
-#             st.error("Invalid username or password")
-#     st.stop()
+if not st.session_state['logged_in']:
+    st.title("🔐 Login Required")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if authenticate(username, password):
+            st.session_state['logged_in'] = True
+            st.rerun()
+        else:
+            st.error("Invalid username or password")
+    st.stop()
 
 # === Sidebar PDF Management ===
 st.sidebar.title("📁 Law Document Manager (Cloud)")
